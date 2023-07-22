@@ -1,4 +1,4 @@
-package Student8;
+package java1;
 
 public class Palindrome {
     public static boolean isPalindrome(String string) {
@@ -27,20 +27,13 @@ public class Palindrome {
 
             startIndex++;
             endIndex--;
-
         }
+
         return true;
     }
 
     public static void main(String[] args) {
-        String string = "";
-
-        if (isPalindrome(string)) {
-            System.out.println("Данная строка является палиндромом.");
-        } else {
-            System.out.println("Данная строка не является палиндромом.");
-        }
-
+        String string = "кок";
         System.out.println(isPalindrome(string));
     }
 }

@@ -1,4 +1,4 @@
-package Student12;
+package java1;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

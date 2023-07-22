@@ -1,9 +1,9 @@
-package Student9;
+package java1;
 
 import java.util.Arrays;
 
 public class ArrayReversal {
-    public static void unwrappedlArray(int[] array) {
+    public static void revertArray(int[] array) {
         int startIndex = 0;
         int endIndex = array.length - 1;
 
@@ -21,7 +21,7 @@ public class ArrayReversal {
         int[] array = {4, 5, 1, 2, 0, 4, 6, 7};
         System.out.println("Массив: " + Arrays.toString(array));
 
-        unwrappedlArray(array);
+        revertArray(array);
         System.out.println("Перевернутый массив: " + Arrays.toString(array));
     }
 }

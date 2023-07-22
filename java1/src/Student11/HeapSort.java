@@ -1,11 +1,11 @@
-package Student11;
+package java1.src.Student11;
 
 import java.util.Arrays;
 
 public class HeapSort {
     public static void heapSort(int[] array) {
         for (int i = array.length / 2 - 1; i >= 0; i--) {
-            siftDown(array, array.length, i);
+            sift(array, array.length, i);
         }
 
         for (int i = array.length - 1; i >= 1; i--) {
@@ -13,11 +13,11 @@ public class HeapSort {
             array[0] = array[i];
             array[i] = temp;
 
-            siftDown(array, i, 0);
+            sift(array, i, 0);
         }
     }
 
-    public static void siftDown(int[] array, int arrayLength, int i) {
+    public static void sift(int[] array, int arrayLength, int i) {
         while (true) {
             int maxIndex = i;
             int leftChildIndex = 2 * i + 1;

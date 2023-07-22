@@ -1,13 +1,13 @@
-package Student9;
+package java1;
 
 import java.util.Scanner;
 
 public class MultiplicationTable {
-    public static int[][] getMultiplicationTable(int rowCount, int columnCount) {
-        int[][] table = new int[rowCount][columnCount];
+    public static int[][] getMultiplicationTable(int rowsCount, int columnsCount) {
+        int[][] table = new int[rowsCount][columnsCount];
 
-        for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < columnCount; j++) {
+        for (int i = 0; i < rowsCount; i++) {
+            for (int j = 0; j < columnsCount; j++) {
                 table[i][j] = (i + 1) * (j + 1);
             }
         }
