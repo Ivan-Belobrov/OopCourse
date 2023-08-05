@@ -1,4 +1,4 @@
-package range.belobrov;
+package ru.academits.belobrov.range;
 
 public class Range {
     private double from;

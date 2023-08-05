@@ -1,6 +1,6 @@
-package range_main.belobrov;
+package ru.academits.belobrov.range_main;
 
-import range.belobrov.Range;
+import ru.academits.belobrov.range.Range;
 
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ public class Main {
         Range intersection = range1.getIntersection(range2);
 
         if (intersection != null) {
-            System.out.println("Интервал пресечение: " + "(" + intersection.getFrom() + ", " + intersection.getTo() + ")");
+            System.out.println("Интервал пресечение: " + intersection);
         } else {
             System.out.println("Пресечения нет.");
         }
