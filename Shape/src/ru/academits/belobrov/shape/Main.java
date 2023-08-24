@@ -17,7 +17,7 @@ public class Main {
 
         Arrays.sort(shapes, new AreaComparator().reversed());
         Shape maxAreaShape = shapes[shapes.length - 1];
-        System.out.println("Фигура с максимальной площадью: " + maxAreaShape);
+        System.out.println("Р¤РёРіСѓСЂР° СЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ РїР»РѕС‰Р°РґСЊСЋ: " + maxAreaShape);
 
         Arrays.sort(shapes, new PerimeterComparator());
         Shape secondLargestPerimeterShape = null;
@@ -28,6 +28,6 @@ public class Main {
                 break;
             }
         }
-        System.out.println("Фигура со вторым по величине периметром: " + secondLargestPerimeterShape);
+        System.out.println("Р¤РёРіСѓСЂР° СЃРѕ РІС‚РѕСЂС‹Рј РїРѕ РІРµР»РёС‡РёРЅРµ РїРµСЂРёРјРµС‚СЂРѕРј: " + secondLargestPerimeterShape);
     }
 }
