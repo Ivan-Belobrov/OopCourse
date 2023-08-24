@@ -1,14 +1,14 @@
-package ru.academits.belobrov.shape.belobrov.belobrov.circle;
-
-import ru.academits.belobrov.shape.belobrov.belobrov.shape.Shape;
-
-import java.util.Objects;
+package ru.academits.belobrov.shape;
 
 public class Circle implements Shape {
     private final double radius;
 
     public Circle(double radius) {
         this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
     }
 
     @Override
@@ -32,22 +32,27 @@ public class Circle implements Shape {
     }
 
     @Override
-    public double hastCode() {
-        return Objects.hash(radius);
+    public int hashCode() {
+        int result = 25;
+        long radius = Double.doubleToLongBits(getRadius());
+
+        result = 31 * result + (int) (radius ^ (radius >>> 32));
+
+        return result;
     }
 
     @Override
-    public boolean equals(Object objects) {
-        if (this == objects) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (objects == null || getClass() != objects.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        Circle other = (Circle) objects;
-        return Objects.equals(other.radius, radius) && radius == other.radius;
+        Circle otherCircle = (Circle) obj;
+        return radius == otherCircle.radius;
     }
 
     @Override
