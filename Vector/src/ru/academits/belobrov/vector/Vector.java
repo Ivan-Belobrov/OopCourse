@@ -16,11 +16,6 @@ public class Vector {
         this.components = new double[n];
     }
 
-    public Vector(Vector vector) {
-        this.size = vector.size;
-        this.components = vector.components.clone();
-    }
-
     public Vector(double[] values) {
         this.size = values.length;
         this.components = new double[this.size];
@@ -171,7 +166,6 @@ public class Vector {
     }
 
     public static double dotProduct(Vector vector1, Vector vector2){
-        int maxSize = Math.max(vector1.size, vector2.size);
         int minSize = Math.min(vector1.size, vector2.size);
         double result = 0;
 
