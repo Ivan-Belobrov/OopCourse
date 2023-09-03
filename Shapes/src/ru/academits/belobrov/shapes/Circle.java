@@ -1,4 +1,4 @@
-package ru.academits.belobrov.shape;
+package ru.academits.belobrov.shapes;
 
 public class Circle implements Shape {
     private final double radius;
@@ -23,7 +23,7 @@ public class Circle implements Shape {
 
     @Override
     public double getArea() {
-        return Math.PI * Math.pow(radius, 2);
+        return Math.PI * (radius * radius);
     }
 
     @Override
@@ -36,8 +36,7 @@ public class Circle implements Shape {
         int result = 25;
         long radius = Double.doubleToLongBits(getRadius());
 
-        result = 31 * result + (int) (radius ^ (radius >>> 32));
-
+        result = 31 * result + Double.hashCode(radius);
         return result;
     }
 
@@ -51,12 +50,12 @@ public class Circle implements Shape {
             return false;
         }
 
-        Circle otherCircle = (Circle) obj;
-        return radius == otherCircle.radius;
+        Circle circle = (Circle) obj;
+        return radius == circle.radius;
     }
 
     @Override
     public String toString() {
-        return "Круг с радиусом " + radius;
+        return "РљСЂСѓРі СЃ СЂР°РґРёСѓСЃРѕРј " + radius;
     }
 }

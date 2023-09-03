@@ -1,6 +1,4 @@
-package ru.academits.belobrov.shape;
-
-import java.util.Objects;
+package ru.academits.belobrov.shapes;
 
 public class Triangle implements Shape {
     private final double x1;
@@ -55,25 +53,25 @@ public class Triangle implements Shape {
 
     @Override
     public double getArea() {
-        double sideLength1 = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        double sideLength2 = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        double sideLength3 = Math.sqrt(Math.pow(x1 - x3, 2) + Math.pow(y1 - y3, 2));
-        double semiPerimeter = (sideLength1 + sideLength2 + sideLength3) / 2;
+        double side1Length = calculateSideLength(x2, y2, x1, y1);
+        double side2Length = calculateSideLength(x3, y3, x2, y2);
+        double side3Length = calculateSideLength(x1, y1, x3, y3);
+        double semiPerimeter = (side1Length + side2Length + side3Length) / 2;
 
-        return Math.sqrt(semiPerimeter * (semiPerimeter - sideLength1) * (semiPerimeter - sideLength2) * (semiPerimeter - sideLength3));
+        return Math.sqrt(semiPerimeter * (semiPerimeter - side1Length) * (semiPerimeter - side3Length) * (semiPerimeter - side3Length));
     }
 
     @Override
     public double getPerimeter() {
-        double sideLength1 = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        double sideLength2 = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        double sideLength3 = Math.sqrt(Math.pow(x1 - x3, 2) + Math.pow(y1 - y3, 2));
-        return sideLength1 + sideLength2 + sideLength3;
+        double side1Length = calculateSideLength(x2, y2, x1, y1);
+        double side2Length = calculateSideLength(x3, y3, x2, y2);
+        double side3Length = calculateSideLength(x1, y1, x3, y3);
+        return side1Length + side2Length + side3Length;
     }
 
     @Override
     public String toString() {
-        return "Òðåóãîëüíèê ñ êîîðäèíàòàìè (" + x1 + ", " + y1 + "), (" + x2 + ", " + y2 + "), (" + x3 + ", " + y3 + ")";
+        return "Ð¢Ñ€ÐµÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸Ðº Ñ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ð°Ð¼Ð¸ (" + x1 + ", " + y1 + "), (" + x2 + ", " + y2 + "), (" + x3 + ", " + y3 + ")";
     }
 
     @Override
@@ -82,22 +80,22 @@ public class Triangle implements Shape {
         long temp;
 
         temp = Double.doubleToLongBits(x1);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(temp);
 
         temp = Double.doubleToLongBits(y1);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(temp);
 
         temp = Double.doubleToLongBits(x2);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(temp);
 
         temp = Double.doubleToLongBits(y2);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(temp);
 
         temp = Double.doubleToLongBits(x3);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(temp);
 
         temp = Double.doubleToLongBits(y3);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(temp);
 
         return result;
     }
@@ -113,8 +111,12 @@ public class Triangle implements Shape {
         }
 
         Triangle triangle = (Triangle) obj;
-        return x1 == triangle.x1 && y1 == triangle.y1 &&
-                x2 == triangle.x2 && y2 == triangle.y2 &&
-                x3 == triangle.x3 && y3 == triangle.y3;
+        return x1 == triangle.x1 && y1 == triangle.y1
+                && x2 == triangle.x2 && y2 == triangle.y2
+                && x3 == triangle.x3 && y3 == triangle.y3;
+    }
+
+    public double calculateSideLength(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 }

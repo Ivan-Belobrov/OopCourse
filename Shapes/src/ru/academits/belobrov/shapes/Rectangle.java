@@ -1,13 +1,11 @@
-package ru.academits.belobrov.shape;
-
-import java.util.Objects;
+package ru.academits.belobrov.shapes;
 
 public class Rectangle implements Shape {
     private final double height;
     private final double width;
 
-    public Rectangle(double length, double width) {
-        this.height = length;
+    public Rectangle(double height, double width) {
+        this.height = height;
         this.width = width;
     }
 
@@ -37,8 +35,8 @@ public class Rectangle implements Shape {
         long heightBits = Double.doubleToLongBits(height);
         long widthBits = Double.doubleToLongBits(width);
 
-        result = 31 * result + (int) (heightBits ^ (heightBits >>> 32));
-        result = 31 * result + (int) (widthBits ^ (widthBits >>> 32));
+        result = 31 * result + Double.hashCode(heightBits);
+        result = 31 * result + Double.hashCode(widthBits);
 
         return result;
     }
@@ -59,6 +57,6 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return "Прямоугольник с длиной = " + height + "шириной = " + width;
+        return "РџСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє СЃ РґР»РёРЅРЅРѕР№ = " + height + " С€РёСЂРёРЅРѕР№ = " + width;
     }
 }

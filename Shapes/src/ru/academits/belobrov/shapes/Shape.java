@@ -1,4 +1,4 @@
-package ru.academits.belobrov.shape;
+package ru.academits.belobrov.shapes;
 
 public interface Shape {
     double getWidth();

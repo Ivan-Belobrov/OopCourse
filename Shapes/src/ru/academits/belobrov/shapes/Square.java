@@ -1,4 +1,4 @@
-package ru.academits.belobrov.shape;
+package ru.academits.belobrov.shapes;
 
 public class Square implements Shape {
     private final double sideLength;
@@ -38,7 +38,7 @@ public class Square implements Shape {
         long temp;
 
         temp = Double.doubleToLongBits(sideLength);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + Double.hashCode(temp);
 
         return result;
     }
@@ -59,6 +59,6 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        return "Квадрат со стороной " + sideLength;
+        return "РљРІР°РґСЂР°С‚ СЃРѕ СЃС‚РѕСЂРѕРЅРѕР№ " + sideLength;
     }
 }
