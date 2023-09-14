@@ -1,4 +1,6 @@
-package ru.academits.belobrov.vector;
+package ru.academits.belobrov.vector.main;
+
+import ru.academits.belobrov.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,14 +21,14 @@ public class Main {
         System.out.println("vector3 * 2 = " + vector3);
         System.out.println();
 
-        vector1.revers();
+        vector1.reverse();
         System.out.println("Разворот вектора vector1 = " + vector1);
         System.out.println();
 
-        System.out.println("Длина вектора vector2 = " + vector2.getMagnitude());
+        System.out.println("Длина вектора vector2 = " + vector2.getLength());
         System.out.println();
 
-        System.out.println("Клмпонента вектора vector3 с индексом 1: " + vector3.getComponent(1));
+        System.out.println("Компонента вектора vector3 с индексом 1: " + vector3.getComponent(1));
         vector3.setComponent(1, 6);
         System.out.println("Измененная компонента вектора vector3 с индексом 1: " + vector3.getComponent(1));
         System.out.println();
@@ -42,7 +44,7 @@ public class Main {
         System.out.println("vector3 - vector2 = " + vector5);
         System.out.println();
 
-        double dotProduct = Vector.dotProduct(vector2, vector3);
+        double dotProduct = Vector.calculateDotProduct(vector2, vector3);
         System.out.println("Скалярное произведение вектора vector2 и vector3: " + dotProduct);
 
         vector2.subtract(vector3);

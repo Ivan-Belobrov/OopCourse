@@ -8,6 +8,8 @@ public class Triangle implements Shape {
     private final double x3;
     private final double y3;
 
+    private static final int hashMultiplier = 31;
+
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
         this.y1 = y1;
@@ -77,25 +79,13 @@ public class Triangle implements Shape {
     @Override
     public int hashCode() {
         int result = 25;
-        long temp;
 
-        temp = Double.doubleToLongBits(x1);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(y1);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(x2);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(y2);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(x3);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(y3);
-        result = 31 * result + Double.hashCode(temp);
+        result = hashMultiplier * result + Double.hashCode(x1);
+        result = hashMultiplier * result + Double.hashCode(y1);
+        result = hashMultiplier * result + Double.hashCode(x2);
+        result = hashMultiplier * result + Double.hashCode(y2);
+        result = hashMultiplier * result + Double.hashCode(x3);
+        result = hashMultiplier * result + Double.hashCode(y3);
 
         return result;
     }

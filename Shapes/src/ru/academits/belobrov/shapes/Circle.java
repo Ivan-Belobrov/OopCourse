@@ -3,7 +3,10 @@ package ru.academits.belobrov.shapes;
 public class Circle implements Shape {
     private final double radius;
 
+    private static final int hashMultiplier = 31;
+
     public Circle(double radius) {
+
         this.radius = radius;
     }
 
@@ -23,7 +26,7 @@ public class Circle implements Shape {
 
     @Override
     public double getArea() {
-        return Math.PI * (radius * radius);
+        return Math.PI * radius * radius;
     }
 
     @Override
@@ -34,9 +37,9 @@ public class Circle implements Shape {
     @Override
     public int hashCode() {
         int result = 25;
-        long radius = Double.doubleToLongBits(getRadius());
+        int radiusHash = Double.hashCode(radius);
+        result = hashMultiplier * result + radiusHash;
 
-        result = 31 * result + Double.hashCode(radius);
         return result;
     }
 

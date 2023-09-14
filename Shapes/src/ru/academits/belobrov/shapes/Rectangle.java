@@ -3,6 +3,7 @@ package ru.academits.belobrov.shapes;
 public class Rectangle implements Shape {
     private final double height;
     private final double width;
+    private static final int hashMultiplier = 31;
 
     public Rectangle(double height, double width) {
         this.height = height;
@@ -32,11 +33,8 @@ public class Rectangle implements Shape {
     @Override
     public int hashCode() {
         int result = 25;
-        long heightBits = Double.doubleToLongBits(height);
-        long widthBits = Double.doubleToLongBits(width);
-
-        result = 31 * result + Double.hashCode(heightBits);
-        result = 31 * result + Double.hashCode(widthBits);
+        result = hashMultiplier * result + Double.hashCode(height);
+        result = hashMultiplier * result + Double.hashCode(width);
 
         return result;
     }
