@@ -1,8 +1,8 @@
-package ru.academits.belobrov.main;
+package ru.academits.belobrov.shapes.shapes_main;
 
-import ru.academits.belobrov.comparator.AreaShapesComparator;
-import ru.academits.belobrov.comparator.PerimeterShapesComparator;
 import ru.academits.belobrov.shapes.*;
+import ru.academits.belobrov.shapes.shapes_comparator.AreaShapeComparator;
+import ru.academits.belobrov.shapes.shapes_comparator.PerimeterShapeComparator;
 
 import java.util.Arrays;
 
@@ -20,20 +20,18 @@ public class Main {
                 new Square(18)
         };
 
-        Arrays.sort(shapes, new AreaShapesComparator().reversed());
+        Arrays.sort(shapes, new AreaShapeComparator().reversed());
         Shape maxAreaShape = shapes[shapes.length - 1];
         System.out.println("Фигура с максимальной площадью: " + maxAreaShape);
 
-        Arrays.sort(shapes, new PerimeterShapesComparator());
-        Shape largestPerimeterShape = shapes[0];
+        Arrays.sort(shapes, new PerimeterShapeComparator());
+        Shape maxPerimeterShape = shapes[shapes.length - 1];
         Shape secondLargestPerimeterShape = null;
 
-        for (int i = 1; i < shapes.length; i++) {
-            if (shapes[i].getPerimeter() > largestPerimeterShape.getPerimeter()) {
-                secondLargestPerimeterShape = largestPerimeterShape;
-                largestPerimeterShape = shapes[i];
-            } else if (secondLargestPerimeterShape == null || shapes[i].getPerimeter() > secondLargestPerimeterShape.getPerimeter()) {
+        for (int i = shapes.length - 2; i >=0; i--) {
+            if (shapes[i].getPerimeter() < maxPerimeterShape.getPerimeter()) {
                 secondLargestPerimeterShape = shapes[i];
+                break;
             }
         }
 

@@ -3,8 +3,8 @@ package ru.academits.belobrov.shapes;
 public class Square implements Shape {
     private final double sideLength;
 
-    public Square(double side) {
-        this.sideLength = side;
+    public Square(double sideLength) {
+        this.sideLength = sideLength;
     }
 
     public double getSideLength() {
@@ -33,14 +33,7 @@ public class Square implements Shape {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        long temp;
-
-        temp = Double.doubleToLongBits(sideLength);
-        result = prime * result + Double.hashCode(temp);
-
-        return result;
+        return Double.hashCode(sideLength);
     }
 
     @Override
