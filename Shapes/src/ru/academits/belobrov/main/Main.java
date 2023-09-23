@@ -1,14 +1,14 @@
-package ru.academits.belobrov.main;
+package Shapes.src.ru.academits.belobrov.main;
 
 import ru.academits.belobrov.comparator.AreaShapesComparator;
 import ru.academits.belobrov.comparator.PerimeterShapesComparator;
-import ru.academits.belobrov.shapes.*;
+
 
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        Shape[] shapes = {
+        ru.academits.belobrov.shapes.Shape[] shapes = {
                 new Square(10),
                 new Triangle(2, 3, 5, 6, 4, 8),
                 new Rectangle(5, 7),
