@@ -1,8 +1,8 @@
 package ru.academits.belobrov.shapes.shapes_main;
 
 import ru.academits.belobrov.shapes.*;
-import ru.academits.belobrov.shapes.shapes_comparator.AreaShapeComparator;
-import ru.academits.belobrov.shapes.shapes_comparator.PerimeterShapeComparator;
+import ru.academits.belobrov.shapes.shapes_comparator.ShapeAreaComparator;
+import ru.academits.belobrov.shapes.shapes_comparator.ShapePerimeterComparator;
 
 import java.util.Arrays;
 
@@ -15,20 +15,20 @@ public class Main {
                 new Circle(10),
                 new Square(8),
                 new Triangle(10, 2, 7, 4, 20, 3),
-                new Rectangle(7, 13),
+                new Rectangle(21, 13),
                 new Circle(21),
-                new Square(18)
+                new Square(14)
         };
 
-        Arrays.sort(shapes, new AreaShapeComparator().reversed());
+        Arrays.sort(shapes, new ShapeAreaComparator());
         Shape maxAreaShape = shapes[shapes.length - 1];
         System.out.println("Фигура с максимальной площадью: " + maxAreaShape);
 
-        Arrays.sort(shapes, new PerimeterShapeComparator());
+        Arrays.sort(shapes, new ShapePerimeterComparator());
         Shape maxPerimeterShape = shapes[shapes.length - 1];
         Shape secondLargestPerimeterShape = null;
 
-        for (int i = shapes.length - 2; i >=0; i--) {
+        for (int i = shapes.length - 2; i >= 0; i--) {
             if (shapes[i].getPerimeter() < maxPerimeterShape.getPerimeter()) {
                 secondLargestPerimeterShape = shapes[i];
                 break;

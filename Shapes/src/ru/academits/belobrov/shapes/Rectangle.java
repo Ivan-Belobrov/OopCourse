@@ -3,7 +3,6 @@ package ru.academits.belobrov.shapes;
 public class Rectangle implements Shape {
     private final double height;
     private final double width;
-    private static final int hashMultiplier = 31;
 
     public Rectangle(double height, double width) {
         this.height = height;
@@ -32,7 +31,9 @@ public class Rectangle implements Shape {
 
     @Override
     public int hashCode() {
+        final int hashMultiplier = 31;
         int result = 25;
+
         result = hashMultiplier * result + Double.hashCode(height);
         result = hashMultiplier * result + Double.hashCode(width);
 
@@ -55,6 +56,6 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return "Прямоугольник с длинной = " + height + " шириной = " + width;
+        return "Прямоугольник с высотой  = " + height + " шириной = " + width;
     }
 }

@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/Range/src/ru/academits/belobrov/range_main/Main.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Range/src/ru/academits/belobrov/range_main/Main.java" charset="UTF-8" />
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/Lambda/src/ru/academits/belobrov/lambda_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Lambda/src/ru/academits/belobrov/lambda_main/Person.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/list/Node.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/list/Node.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/list/Node.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/list/Node.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/list/Node.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/List/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Circle.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Rectangle.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Shape.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Square.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Triangle.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/shapes_comparator/AreaShapesComparator.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/shapes_comparator/PerimeterShapesComparator.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/shapes_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Vector/src/ru/academits/belobrov/vector/Vector.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Vector/src/ru/academits/belobrov/vector/main/Main.java" charset="UTF-8" />
+    <file url="PROJECT" charset="windows-1251" />
   </component>
 </project>
