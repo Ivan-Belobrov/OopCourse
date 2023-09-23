@@ -47,22 +47,26 @@ public class Vector {
     }
 
     public void add(Vector vector) {
-        int minLength = Math.min(components.length, vector.components.length);
-        double[] result = Arrays.copyOf(components, components.length);
+        int maxLength = Math.max(components.length, vector.components.length);
+        double[] result = new double[maxLength];
 
-        for (int i = 0; i < minLength; i++) {
-            result[i] += vector.components[i];
+        for (int i = 0; i < maxLength; i++) {
+            double component1 = i < components.length ? components[i] : 0;
+            double component2 = i < vector.components.length ? vector.components[i] : 0;
+            result[i] = component1 + component2;
         }
 
         components = result;
     }
 
     public void subtract(Vector vector) {
-        int minLength = Math.min(components.length, vector.components.length);
-        double[] result = Arrays.copyOf(components, components.length);
+        int maxLength = Math.max(components.length, vector.components.length);
+        double[] result = new double[maxLength];
 
-        for (int i = 0; i < minLength; i++) {
-            result[i] -= vector.components[i];
+        for (int i = 0; i < maxLength; i++) {
+            double component1 = i < components.length ? components[i] : 0;
+            double component2 = i < vector.components.length ? vector.components[i] : 0;
+            result[i] = component1 - component2;
         }
 
         components = result;
