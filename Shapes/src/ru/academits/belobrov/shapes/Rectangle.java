@@ -31,12 +31,11 @@ public class Rectangle implements Shape {
 
     @Override
     public int hashCode() {
+        final int hashMultiplier = 31;
         int result = 25;
-        long heightBits = Double.doubleToLongBits(height);
-        long widthBits = Double.doubleToLongBits(width);
 
-        result = 31 * result + Double.hashCode(heightBits);
-        result = 31 * result + Double.hashCode(widthBits);
+        result = hashMultiplier * result + Double.hashCode(height);
+        result = hashMultiplier * result + Double.hashCode(width);
 
         return result;
     }
@@ -57,6 +56,6 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return "Прямоугольник с длинной = " + height + " шириной = " + width;
+        return "Прямоугольник с высотой  = " + height + " шириной = " + width;
     }
 }

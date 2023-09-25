@@ -53,19 +53,21 @@ public class Triangle implements Shape {
 
     @Override
     public double getArea() {
-        double side1Length = calculateSideLength(x2, y2, x1, y1);
-        double side2Length = calculateSideLength(x3, y3, x2, y2);
-        double side3Length = calculateSideLength(x1, y1, x3, y3);
+        double side1Length = getSideLength(x2, y2, x1, y1);
+        double side2Length = getSideLength(x3, y3, x2, y2);
+        double side3Length = getSideLength(x1, y1, x3, y3);
+
         double semiPerimeter = (side1Length + side2Length + side3Length) / 2;
 
-        return Math.sqrt(semiPerimeter * (semiPerimeter - side1Length) * (semiPerimeter - side3Length) * (semiPerimeter - side3Length));
+        return Math.sqrt(semiPerimeter * (semiPerimeter - side1Length) * (semiPerimeter - side3Length) * (semiPerimeter - side2Length));
     }
 
     @Override
     public double getPerimeter() {
-        double side1Length = calculateSideLength(x2, y2, x1, y1);
-        double side2Length = calculateSideLength(x3, y3, x2, y2);
-        double side3Length = calculateSideLength(x1, y1, x3, y3);
+        double side1Length = getSideLength(x2, y2, x1, y1);
+        double side2Length = getSideLength(x3, y3, x2, y2);
+        double side3Length = getSideLength(x1, y1, x3, y3);
+
         return side1Length + side2Length + side3Length;
     }
 
@@ -76,26 +78,15 @@ public class Triangle implements Shape {
 
     @Override
     public int hashCode() {
+        final int hashMultiplier = 31;
         int result = 25;
-        long temp;
 
-        temp = Double.doubleToLongBits(x1);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(y1);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(x2);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(y2);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(x3);
-        result = 31 * result + Double.hashCode(temp);
-
-        temp = Double.doubleToLongBits(y3);
-        result = 31 * result + Double.hashCode(temp);
+        result = hashMultiplier * result + Double.hashCode(x1);
+        result = hashMultiplier * result + Double.hashCode(y1);
+        result = hashMultiplier * result + Double.hashCode(x2);
+        result = hashMultiplier * result + Double.hashCode(y2);
+        result = hashMultiplier * result + Double.hashCode(x3);
+        result = hashMultiplier * result + Double.hashCode(y3);
 
         return result;
     }
@@ -116,7 +107,7 @@ public class Triangle implements Shape {
                 && x3 == triangle.x3 && y3 == triangle.y3;
     }
 
-    public double calculateSideLength(double x1, double y1, double x2, double y2) {
+    private static double getSideLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 }

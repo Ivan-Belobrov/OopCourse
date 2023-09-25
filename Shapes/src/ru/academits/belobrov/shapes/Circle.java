@@ -23,7 +23,7 @@ public class Circle implements Shape {
 
     @Override
     public double getArea() {
-        return Math.PI * (radius * radius);
+        return Math.PI * radius * radius;
     }
 
     @Override
@@ -33,10 +33,11 @@ public class Circle implements Shape {
 
     @Override
     public int hashCode() {
+        final int hashMultiplier = 31;
         int result = 25;
-        long radius = Double.doubleToLongBits(getRadius());
 
-        result = 31 * result + Double.hashCode(radius);
+        result = hashMultiplier * result + Double.hashCode(radius);
+
         return result;
     }
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<countries>
+    <country>
+        <name_ru>Россия</name_ru>
+        <name_en>Russia</name_en>
+        <country_code>RU</country_code>
+        <currency_code>RUB</currency_code>
+        <cities>
+            <city>
+                <name_ru>Москва</name_ru>
+                <name_en>Moscow</name_en>
+                <population>12655050</population>
+            </city>
+            <city>
+                <name_ru>Санкт-Петербург</name_ru>
+                <name_en>Saint-Petersburg</name_en>
+                <population>5383890</population>
+            </city>
+        </cities>
+    </country>
+    <country>
+        <name_ru>США</name_ru>
+        <name_en>USA</name_en>
+        <country_code>US</country_code>
+        <currency_code>USD</currency_code>
+        <cities>
+            <city>
+                <name_ru>Нью-Йорк</name_ru>
+                <name_en>New York</name_en>
+                <population>8398748</population>
+            </city>
+            <city>
+                <name_ru>Лос-Анджелес</name_ru>
+                <name_en>Los Angeles</name_en>
+                <population>3990456</population>
+            </city>
+        </cities>
+    </country>
+    <country>
+        <name_ru>Франция</name_ru>
+        <name_en>France</name_en>
+        <country_code>FR</country_code>
+        <currency_code>EUR</currency_code>
+        <cities>
+            <city>
+                <name_ru>Париж</name_ru>
+                <name_en>Paris</name_en>
+                <population>11208440</population>
+            </city>
+            <city>
+                <name_ru>Марсель</name_ru>
+                <name_en>Marseille</name_en>
+                <population>861635</population>
+            </city>
+        </cities>
+    </country>
+</countries>
