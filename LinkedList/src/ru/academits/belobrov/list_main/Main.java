@@ -1,6 +1,6 @@
 package ru.academits.belobrov.list_main;
 
-import ru.academits.belobrov.list_main.list.Node;
+import ru.academits.belobrov.list.Node;
 
 public class Main {
 

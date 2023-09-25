@@ -1,4 +1,4 @@
-package ru.academits.belobrov.list_main.list;
+package ru.academits.belobrov.list;
 
 public class Node<T> {
     private T data;
