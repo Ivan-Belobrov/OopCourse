@@ -1,6 +1,7 @@
 package ru.academits.belobrov.lambda_main;
 
 import ru.academits.belobrov.lambda.Person;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ public class Main {
         System.out.println("Средний возраст по именам: " + averageAgeByNames);
 
         List<String> namesFrom20To45 = personList.stream()
-                .filter(p -> p.age() >= 20 && p.age() <=45)
+                .filter(p -> p.age() >= 20 && p.age() <= 45)
                 .sorted(Comparator.comparingInt(Person::age).reversed())
                 .map(Person::name)
                 .toList();
