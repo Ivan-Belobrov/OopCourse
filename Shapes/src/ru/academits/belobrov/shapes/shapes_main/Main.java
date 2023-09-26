@@ -1,16 +1,8 @@
-<<<<<<< HEAD:Shapes/src/ru/academits/belobrov/main/Main.java
-package Shapes.src.ru.academits.belobrov.main;
-
-import ru.academits.belobrov.comparator.AreaShapesComparator;
-import ru.academits.belobrov.comparator.PerimeterShapesComparator;
-
-=======
 package ru.academits.belobrov.shapes.shapes_main;
 
 import ru.academits.belobrov.shapes.*;
 import ru.academits.belobrov.shapes.shapes_comparator.ShapeAreaComparator;
 import ru.academits.belobrov.shapes.shapes_comparator.ShapePerimeterComparator;
->>>>>>> 9351c32a08391e5cf670d74d07170d6c8a87c413:Shapes/src/ru/academits/belobrov/shapes/shapes_main/Main.java
 
 import java.util.Arrays;
 
