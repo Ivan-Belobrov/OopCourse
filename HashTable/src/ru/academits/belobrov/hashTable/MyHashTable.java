@@ -42,7 +42,6 @@ public class MyHashTable<T> implements Collection<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T1> T1[] toArray(T1[] array) {
         if (array.length < size) {
             return (T1[]) Arrays.copyOf(table, size, array.getClass());

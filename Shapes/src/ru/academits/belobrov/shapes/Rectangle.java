@@ -56,6 +56,6 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return "Прямоугольник с высотой  = " + height + " шириной = " + width;
+        return "Прямоугольник с высотой  = " + height + " и" + " шириной = " + width;
     }
 }
