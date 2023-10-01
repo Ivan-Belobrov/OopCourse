@@ -7,22 +7,32 @@ public class Vector {
 
     public Vector(int size) {
         if (size <= 0) {
-            throw new IllegalArgumentException("Размерность вектора должна быть положительным числом");
+            throw new IllegalArgumentException("Размерность вектора должна быть положительным числом." +
+                    "Переданный размер: " + size);
         }
 
         components = new double[size];
     }
 
     public Vector(double[] values) {
+        if (values.length == 0) {
+            throw new IllegalArgumentException("Размер вектора не может быть равен 0");
+        }
+
         components = Arrays.copyOf(values, values.length);
     }
 
     public Vector(int size, double[] values) {
         if (size <= 0) {
-            throw new IllegalArgumentException("Размерность вектора должна быть положительным числом.");
+            throw new IllegalArgumentException("Размерность вектора должна быть положительным числом. " +
+                    "Переданный размер: " + size);
         }
 
         components = Arrays.copyOf(values, size);
+    }
+
+    public Vector(Vector other) {
+        components = Arrays.copyOf(other.components, other.components.length);
     }
 
     public int getSize() {
@@ -34,12 +44,12 @@ public class Vector {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
 
-        if (components.length > 0) {
-            sb.append(components[0]);
-
-            for (int i = 1; i < components.length; i++) {
-                sb.append(", ").append(components[i]);
+        for (int i = 0; i < components.length; i++) {
+            if (i > 0) {
+                sb.append(", ");
             }
+
+            sb.append(components[i]);
         }
 
         sb.append("}");
@@ -48,28 +58,30 @@ public class Vector {
 
     public void add(Vector vector) {
         int maxLength = Math.max(components.length, vector.components.length);
-        double[] result = new double[maxLength];
 
-        for (int i = 0; i < maxLength; i++) {
-            double component1 = i < components.length ? components[i] : 0;
-            double component2 = i < vector.components.length ? vector.components[i] : 0;
-            result[i] = component1 + component2;
+        if (maxLength > components.length) {
+            double[] result = new double[maxLength];
+            System.arraycopy(components, 0, result, 0, components.length);
+            components = result;
         }
 
-        components = result;
+        for (int i = 0; i < maxLength; i++) {
+            components[i] += vector.components[i];
+        }
     }
 
     public void subtract(Vector vector) {
         int maxLength = Math.max(components.length, vector.components.length);
-        double[] result = new double[maxLength];
 
-        for (int i = 0; i < maxLength; i++) {
-            double component1 = i < components.length ? components[i] : 0;
-            double component2 = i < vector.components.length ? vector.components[i] : 0;
-            result[i] = component1 - component2;
+        if (maxLength > components.length) {
+            double[] result = new double[maxLength];
+            System.arraycopy(components, 0, result, 0, components.length);
+            components = result;
         }
 
-        components = result;
+        for (int i = 0; i < maxLength; i++) {
+            components[i] -= vector.components[i];
+        }
     }
 
     public void multiplyByScalar(double scalar) {
@@ -94,7 +106,8 @@ public class Vector {
 
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
-            throw new IndexOutOfBoundsException("Индекс компонента вектора выходит за пределы размерности");
+            throw new IndexOutOfBoundsException("Индекс компонента вектора " + index
+                    + " выходит за пределы размерности " + components.length);
         }
 
         return components[index];
@@ -102,7 +115,8 @@ public class Vector {
 
     public void setComponent(int index, double value) {
         if (index < 0 || index >= components.length) {
-            throw new IndexOutOfBoundsException("Индекс компонента вектора выходит за пределы размерности");
+            throw new IndexOutOfBoundsException("Индекс компонента вектора " + index
+                    + " выходит за пределы размерности " + components.length);
         }
 
         components[index] = value;
@@ -124,43 +138,24 @@ public class Vector {
 
     @Override
     public int hashCode() {
-        int result = components.length;
-        result = 31 * result + Arrays.hashCode(components);
+        return Arrays.hashCode(components);
+    }
+
+    public static Vector getSum(Vector vector1, Vector vector2) {
+        Vector result = new Vector(vector1);
+        result.add(vector2);
 
         return result;
     }
 
-    public static Vector add(Vector vector1, Vector vector2) {
-        int maxSize = Math.max(vector1.components.length, vector2.components.length);
-        int minSize = Math.min(vector1.components.length, vector2.components.length);
+    public static Vector getDifference(Vector vector1, Vector vector2) {
+        Vector result = new Vector(vector1);
+        result.subtract(vector2);
 
-        double[] resultComponents = new double[maxSize];
-
-        System.arraycopy(vector1.components, 0, resultComponents, 0, vector1.components.length);
-
-        for (int i = 0; i < minSize; i++) {
-            resultComponents[i] += vector2.components[i];
-        }
-
-        return new Vector(maxSize, resultComponents);
+        return result;
     }
 
-    public static Vector subtract(Vector vector1, Vector vector2) {
-        int maxSize = Math.max(vector1.components.length, vector2.components.length);
-        int minSize = Math.min(vector1.components.length, vector2.components.length);
-
-        double[] resultComponents = new double[maxSize];
-
-        System.arraycopy(vector1.components, 0, resultComponents, 0, vector1.components.length);
-
-        for (int i = 0; i < minSize; i++) {
-            resultComponents[i] -= vector2.components[i];
-        }
-
-        return new Vector(maxSize, resultComponents);
-    }
-
-    public static double calculateDotProduct(Vector vector1, Vector vector2) {
+    public static double getDotProduct(Vector vector1, Vector vector2) {
         int minSize = Math.min(vector1.components.length, vector2.components.length);
         double result = 0;
 

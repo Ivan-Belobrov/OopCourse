@@ -1,4 +1,4 @@
-package ru.academits.belobrov.vector.main;
+package ru.academits.belobrov.vector_main;
 
 import ru.academits.belobrov.vector.Vector;
 
@@ -21,6 +21,10 @@ public class Main {
         System.out.println("vector3 * 2 = " + vector3);
         System.out.println();
 
+        Vector vector6 = new Vector(vector2);
+        System.out.println("Копировынный вектор = " + vector6);
+        System.out.println();
+
         vector1.reverse();
         System.out.println("Разворот вектора vector1 = " + vector1);
         System.out.println();
@@ -36,15 +40,15 @@ public class Main {
         System.out.println("vector1 равен vector2? " + vector1.equals(vector2));
         System.out.println();
 
-        Vector vector4 = Vector.add(vector2, vector3);
+        Vector vector4 = Vector.getSum(vector2, vector3);
         System.out.println("vector2 + vector3 = " + vector4);
         System.out.println();
 
-        Vector vector5 = Vector.subtract(vector3, vector2);
+        Vector vector5 = Vector.getDifference(vector3, vector2);
         System.out.println("vector3 - vector2 = " + vector5);
         System.out.println();
 
-        double dotProduct = Vector.calculateDotProduct(vector2, vector3);
+        double dotProduct = Vector.getDotProduct(vector2, vector3);
         System.out.println("Скалярное произведение вектора vector2 и vector3: " + dotProduct);
 
         vector2.subtract(vector3);
