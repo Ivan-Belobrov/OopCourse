@@ -145,13 +145,13 @@ public class LinkedList<E> {
 
     public void reverse() {
         Node<E> previousNode = null;
-        Node<E> node = head;
+        Node<E> currentNode = head;
 
-        while (node != null) {
-            Node<E> next = node.getNext();
-            node.setNext(previousNode);
-            previousNode = node;
-            node = next;
+        while (currentNode != null) {
+            Node<E> next = currentNode.getNext();
+            currentNode.setNext(previousNode);
+            previousNode = currentNode;
+            currentNode = next;
         }
 
         head = previousNode;
@@ -159,11 +159,11 @@ public class LinkedList<E> {
 
     public LinkedList<E> copy() {
         LinkedList<E> newList = new LinkedList<>();
-        Node<E> node = head;
+        Node<E> currentNode = head;
         Node<E> tail = null;
 
-        while (node != null) {
-            Node<E> newNode = new Node<>(node.getData(), null);
+        while (currentNode != null) {
+            Node<E> newNode = new Node<>(currentNode.getData(), null);
 
             if (tail == null) {
                 newList.head = newNode;
@@ -173,7 +173,7 @@ public class LinkedList<E> {
 
             tail = newNode;
             newList.size++;
-            node = node.getNext();
+            currentNode = currentNode.getNext();
         }
 
         return newList;
