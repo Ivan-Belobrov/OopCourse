@@ -33,7 +33,6 @@ public class Main {
                 average -> System.out.println("Средний возраст людей младше 18 лет: " + averageAgeUnder18),
                 () -> System.out.println("Нет людей младше 18 лет."));
 
-
         Map<String, Double> averageAgesByNames = personsList.stream()
                 .collect(Collectors.groupingBy(Person::name, Collectors.averagingInt(Person::age)));
         System.out.println("Средний возраст по именам: " + averageAgesByNames);
