@@ -44,12 +44,14 @@ public class Vector {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
 
-        for (int i = 0; i < components.length; i++) {
-            if (i > 0) {
-                sb.append(", ");
-            }
 
-            sb.append(components[i]);
+        if (components.length > 0) {
+            sb.append(components[0]);
+
+            for (int i = 1; i < components.length; i++) {
+                sb.append(", ");
+                sb.append(components[i]);
+            }
         }
 
         sb.append("}");
