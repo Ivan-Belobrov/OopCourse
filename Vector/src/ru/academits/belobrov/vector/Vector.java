@@ -7,7 +7,7 @@ public class Vector {
 
     public Vector(int size) {
         if (size <= 0) {
-            throw new IllegalArgumentException("Размерность вектора должна быть положительным числом." +
+            throw new IllegalArgumentException("Размерность вектора должна быть положительным числом. " +
                     "Переданный размер: " + size);
         }
 
@@ -16,7 +16,7 @@ public class Vector {
 
     public Vector(double[] values) {
         if (values.length == 0) {
-            throw new IllegalArgumentException("Размер вектора не может быть равен 0");
+            throw new IllegalArgumentException("Размерность вектора не может быть равен 0.");
         }
 
         components = Arrays.copyOf(values, values.length);
@@ -31,8 +31,8 @@ public class Vector {
         components = Arrays.copyOf(values, size);
     }
 
-    public Vector(Vector other) {
-        components = Arrays.copyOf(other.components, other.components.length);
+    public Vector(Vector vector) {
+        components = Arrays.copyOf(vector.components, vector.components.length);
     }
 
     public int getSize() {
@@ -60,13 +60,13 @@ public class Vector {
         int maxLength = Math.max(components.length, vector.components.length);
 
         if (maxLength > components.length) {
-            double[] result = new double[maxLength];
-            System.arraycopy(components, 0, result, 0, components.length);
-            components = result;
+            components = Arrays.copyOf(components, maxLength);
         }
 
         for (int i = 0; i < maxLength; i++) {
-            components[i] += vector.components[i];
+            if (i < vector.components.length) {
+                components[i] += vector.components[i];
+            }
         }
     }
 
@@ -74,13 +74,13 @@ public class Vector {
         int maxLength = Math.max(components.length, vector.components.length);
 
         if (maxLength > components.length) {
-            double[] result = new double[maxLength];
-            System.arraycopy(components, 0, result, 0, components.length);
-            components = result;
+            components = Arrays.copyOf(components, maxLength);
         }
 
         for (int i = 0; i < maxLength; i++) {
-            components[i] -= vector.components[i];
+            if (i < vector.components.length) {
+                components[i] -= vector.components[i];
+            }
         }
     }
 
@@ -107,7 +107,7 @@ public class Vector {
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
             throw new IndexOutOfBoundsException("Индекс компонента вектора " + index
-                    + " выходит за пределы размерности " + components.length);
+                    + " выходит за пределы размерности [0, " + (components.length - 1) + "]");
         }
 
         return components[index];
@@ -116,7 +116,7 @@ public class Vector {
     public void setComponent(int index, double value) {
         if (index < 0 || index >= components.length) {
             throw new IndexOutOfBoundsException("Индекс компонента вектора " + index
-                    + " выходит за пределы размерности " + components.length);
+                    + " выходит за пределы размерности [0, " + (components.length - 1) + "]");
         }
 
         components[index] = value;
