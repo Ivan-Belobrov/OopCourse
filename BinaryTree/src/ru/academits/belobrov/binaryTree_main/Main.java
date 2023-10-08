@@ -6,16 +6,16 @@ public class Main {
     public static void main(String[] args) {
         BinaryTree tree = new BinaryTree();
 
-        tree.insert(50);
-        tree.insert(60);
-        tree.insert(40);
+        tree.insert(17);
         tree.insert(20);
-        tree.insert(80);
-        tree.insert(90);
+        tree.insert(8);
+        tree.insert(9);
+        tree.insert(10);
+        tree.insert(26);
 
-        System.out.println("Поиск узла 40: " + tree.search(40));
+        System.out.println("Поиск узла 20: " + tree.search(20));
 
-        tree.delete(40);
+        tree.delete(20);
 
         System.out.println("Число элементов в дереве: " + tree.getSize());
 

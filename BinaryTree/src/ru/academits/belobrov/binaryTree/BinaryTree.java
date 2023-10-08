@@ -1,7 +1,6 @@
 package ru.academits.belobrov.binaryTree;
 
 import ru.academits.belobrov.node.Node;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -12,7 +11,6 @@ public class BinaryTree {
         this.root = null;
     }
 
-    //вставка узда в дерево
     public void insert(int value) {
         root = insertNode(root, value);
     }
@@ -32,7 +30,6 @@ public class BinaryTree {
         return root;
     }
 
-    //поиск узла в дереве
     public boolean search(int value) {
         return searchNode(root, value);
     }
@@ -53,7 +50,6 @@ public class BinaryTree {
         }
     }
 
-    //удаление первого узла по вхождению
     public void delete(int value) {
         root = deleteNode(root, value);
     }
@@ -92,7 +88,6 @@ public class BinaryTree {
         return minValue;
     }
 
-    //Получение числа элементов в дереве
     public int getSize() {
         return getSize(root);
     }
@@ -105,7 +100,6 @@ public class BinaryTree {
         }
     }
 
-    //Обходы в ширину и глубину
     public void breadthFirstTraversal(){
         if (root == null){
             return;
