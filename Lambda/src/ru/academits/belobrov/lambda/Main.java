@@ -5,24 +5,24 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        List<Person> personsList = new ArrayList<>(Arrays.asList(
+        List<Person> personsList = Arrays.asList(
                 new Person("Иван", 45),
                 new Person("Сергей", 25),
                 new Person("Михаил", 28),
                 new Person("Иван", 7),
                 new Person("Петр", 13),
                 new Person("Игорь", 17)
-        ));
+        );
 
         List<String> uniqueNamesList = personsList.stream()
                 .map(Person::name)
                 .distinct()
                 .toList();
 
-        String formattedNamesString = uniqueNamesList.stream()
+        String formattedUniqueNamesString = uniqueNamesList.stream()
                 .collect(Collectors.joining(", ", "Имена: ", "."));
 
-        System.out.println(formattedNamesString);
+        System.out.println(formattedUniqueNamesString);
 
         OptionalDouble averageAgeUnder18 = personsList.stream()
                 .filter(p -> p.age() < 18)
