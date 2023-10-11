@@ -101,7 +101,7 @@ public class ArrayList<T> implements List<T> {
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
         if (index < 0 && index > size) {
-            throw new IndexOutOfBoundsException("Индекс: " + index + ", размер: " + size);
+            throw new IndexOutOfBoundsException("РРЅРґРµРєСЃ: " + index + ", СЂР°Р·РјРµСЂ: " + size);
         }
 
         Object[] arr = c.toArray();
@@ -180,7 +180,7 @@ public class ArrayList<T> implements List<T> {
     @Override
     public void add(int index, T element) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс: " + index + ", размер: " + size);
+            throw new IndexOutOfBoundsException("РРЅРґРµРєСЃ: " + index + ", СЂР°Р·РјРµСЂ: " + size);
         }
         ensureCapacity(size + 1);
         System.arraycopy(elements, index, elements, index + 1, size - index);
@@ -248,7 +248,7 @@ public class ArrayList<T> implements List<T> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Индекс: " + index + ", размер: " + size);
+            throw new IndexOutOfBoundsException("РРЅРґРµРєСЃ: " + index + ", СЂР°Р·РјРµСЂ: " + size);
         }
     }
 
@@ -274,13 +274,13 @@ public class ArrayList<T> implements List<T> {
             int i = cursor;
 
             if (i >= size) {
-                throw new NoSuchElementException("Элемент по индексу не найден: " + i);
+                throw new NoSuchElementException("Р­Р»РµРјРµРЅС‚ РїРѕ РёРЅРґРµРєСЃСѓ РЅРµ РЅР°Р№РґРµРЅ: " + i);
             }
 
             Object[] elementData = ArrayList.this.elements;
 
             if (i >= elementData.length) {
-                throw new ConcurrentModificationException("Одновременная модификация, обнаруженная в индексе: " + i);
+                throw new ConcurrentModificationException("РћРґРЅРѕРІСЂРµРјРµРЅРЅР°СЏ РјРѕРґРёС„РёРєР°С†РёСЏ, РѕР±РЅР°СЂСѓР¶РµРЅРЅР°СЏ РІ РёРЅРґРµРєСЃРµ: " + i);
             }
 
             cursor = i + 1;
@@ -298,13 +298,13 @@ public class ArrayList<T> implements List<T> {
             int i = cursor - 1;
 
             if (i < 0) {
-                throw new NoSuchElementException("Элемент по индексу не найден: " + i);
+                throw new NoSuchElementException("Р­Р»РµРјРµРЅС‚ РїРѕ РёРЅРґРµРєСЃСѓ РЅРµ РЅР°Р№РґРµРЅ: " + i);
             }
 
             Object[] elementData = ArrayList.this.elements;
 
             if (i >= elementData.length) {
-                throw new ConcurrentModificationException("Одновременная модификация, обнаруженная в индексе: " + i);
+                throw new ConcurrentModificationException("РћРґРЅРѕРІСЂРµРјРµРЅРЅР°СЏ РјРѕРґРёС„РёРєР°С†РёСЏ, РѕР±РЅР°СЂСѓР¶РµРЅРЅР°СЏ РІ РёРЅРґРµРєСЃРµ: " + i);
             }
             cursor = i;
 
@@ -324,7 +324,7 @@ public class ArrayList<T> implements List<T> {
         @Override
         public void remove() {
             if (lastRet < 0) {
-                throw new IllegalStateException("Нет элемента, который нужно удалить.");
+                throw new IllegalStateException("РќРµС‚ СЌР»РµРјРµРЅС‚Р°, РєРѕС‚РѕСЂС‹Р№ РЅСѓР¶РЅРѕ СѓРґР°Р»РёС‚СЊ.");
             }
 
             try {
@@ -332,20 +332,20 @@ public class ArrayList<T> implements List<T> {
                 cursor = lastRet;
                 lastRet = -1;
             } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при удалении элемента с индексом: " + lastRet);
+                throw new ConcurrentModificationException("РћР±РЅР°СЂСѓР¶РµРЅР° РѕРґРЅРѕРІСЂРµРјРµРЅРЅР°СЏ РјРѕРґРёС„РёРєР°С†РёСЏ РїСЂРё СѓРґР°Р»РµРЅРёРё СЌР»РµРјРµРЅС‚Р° СЃ РёРЅРґРµРєСЃРѕРј: " + lastRet);
             }
         }
 
         @Override
         public void set(T t) {
             if (lastRet < 0) {
-                throw new IllegalStateException("Нет элемента для установки.");
+                throw new IllegalStateException("РќРµС‚ СЌР»РµРјРµРЅС‚Р° РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё.");
             }
 
             try {
                 ArrayList.this.set(lastRet, t);
             } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при удалении элемента с индексом: " + lastRet);
+                throw new ConcurrentModificationException("РћР±РЅР°СЂСѓР¶РµРЅР° РѕРґРЅРѕРІСЂРµРјРµРЅРЅР°СЏ РјРѕРґРёС„РёРєР°С†РёСЏ РїСЂРё СѓРґР°Р»РµРЅРёРё СЌР»РµРјРµРЅС‚Р° СЃ РёРЅРґРµРєСЃРѕРј: " + lastRet);
             }
         }
 
@@ -357,7 +357,7 @@ public class ArrayList<T> implements List<T> {
                 cursor = i + 1;
                 lastRet = -1;
             } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при добавлении элемента по индексу: " + cursor);
+                throw new ConcurrentModificationException("РћР±РЅР°СЂСѓР¶РµРЅР° РѕРґРЅРѕРІСЂРµРјРµРЅРЅР°СЏ РјРѕРґРёС„РёРєР°С†РёСЏ РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё СЌР»РµРјРµРЅС‚Р° РїРѕ РёРЅРґРµРєСЃСѓ: " + cursor);
             }
         }
     }
