@@ -1,6 +1,7 @@
 package ru.academits.belobrov.vector;
 
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 public class Vector {
     private double[] components;
@@ -16,7 +17,7 @@ public class Vector {
 
     public Vector(double[] values) {
         if (values.length == 0) {
-            throw new IllegalArgumentException("Размерность вектора не может быть равен 0.");
+            throw new IllegalArgumentException("Размерность вектора не может быть равна 0.");
         }
 
         components = Arrays.copyOf(values, values.length);
@@ -41,48 +42,28 @@ public class Vector {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
+        StringJoiner sj = new StringJoiner(", ", "{", "}");
 
-
-        if (components.length > 0) {
-            sb.append(components[0]);
-
-            for (int i = 1; i < components.length; i++) {
-                sb.append(", ");
-                sb.append(components[i]);
-            }
+        for (double component : components) {
+            sj.add(String.valueOf(component));
         }
 
-        sb.append("}");
-        return sb.toString();
+        return sj.toString();
     }
 
     public void add(Vector vector) {
-        int maxLength = Math.max(components.length, vector.components.length);
+        components = Arrays.copyOf(components, Math.max(components.length, vector.components.length));
 
-        if (maxLength > components.length) {
-            components = Arrays.copyOf(components, maxLength);
-        }
-
-        for (int i = 0; i < maxLength; i++) {
-            if (i < vector.components.length) {
-                components[i] += vector.components[i];
-            }
+        for (int i = 0; i < vector.components.length; i++) {
+            components[i] += vector.components[i];
         }
     }
 
     public void subtract(Vector vector) {
-        int maxLength = Math.max(components.length, vector.components.length);
+        components = Arrays.copyOf(components, Math.max(components.length, vector.components.length));
 
-        if (maxLength > components.length) {
-            components = Arrays.copyOf(components, maxLength);
-        }
-
-        for (int i = 0; i < maxLength; i++) {
-            if (i < vector.components.length) {
-                components[i] -= vector.components[i];
-            }
+        for (int i = 0; i < vector.components.length; i++) {
+            components[i] -= vector.components[i];
         }
     }
 
