@@ -1,17 +1,22 @@
 package ru.academits.belobrov.hashTable;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class MyHashTable<T> implements Collection<T> {
-    private final int size;
     private final Object[] table;
+    private int size;
 
-    public MyHashTable(int size) {
-        this.size = size;
-        this.table = new Object[size];
+    public MyHashTable(int capacity) {
+        this.table = new Object[capacity];
+        this.size = 0;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public Object[] getTable() {
+        return table;
     }
 
     @Override
@@ -26,64 +31,87 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public boolean contains(Object o) {
-        int index = Math.abs(o.hashCode() % size);
+        for (Object element : table) {
+            if (element != null && element.equals(o)) {
+                return true;
+            }
+        }
 
-        return table[index] != null && table[index].equals(o);
+        return false;
     }
 
     @Override
     public Iterator<T> iterator() {
-        return new MyHashTableIterator();
+        return new Iterator<T>() {
+            private int currentIndex;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < size;
+            }
+
+            @Override
+            public T next() {
+                return (T) table[currentIndex++];
+            }
+        };
     }
 
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(table, size);
+        Object[] result = new Object[size];
+        System.arraycopy(table, 0, result, 0, size);
+
+        return result;
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] array) {
-        if (array.length < size) {
-            return (T1[]) Arrays.copyOf(table, size, array.getClass());
+    public <T1> T1[] toArray(T1[] a) {
+        if (a.length < size) {
+            return (T1[]) toArray();
         }
 
-        System.arraycopy(table, 0, array, 0, size);
+        System.arraycopy(table, 0, a, 0, size);
 
-        if (array.length > size) {
-            array[size] = null;
+        if (a.length > size) {
+            a[size] = null;
         }
 
-        return array;
+        return a;
     }
 
     @Override
-    public boolean add(T element) {
-        int index = Math.abs(element.hashCode() % size);
-
-        if (table[index] != null) {
-            return false;
+    public boolean add(T t) {
+        if (size < table.length) {
+            table[size++] = t;
+            return true;
         }
 
-        table[index] = element;
-        return true;
+        return false;
     }
 
     @Override
-    public boolean remove(Object obj) {
-        int index = Math.abs(obj.hashCode() % size);
+    public boolean remove(Object o) {
+        for (int i = 0; i < size; i++) {
+            if (table[i] != null && table[i].equals(o)) {
+                if (i != size - 1) {
+                    table[i] = table[size - 1];
+                }
 
-        if (table[index] == null || !table[index].equals(obj)) {
-            return false;
+                table[size - 1] = null;
+                size--;
+
+                return true;
+            }
         }
 
-        table[index] = null;
-        return true;
+        return false;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object obj : c) {
-            if (!contains(obj)) {
+        for (Object element : c) {
+            if (!contains(element)) {
                 return false;
             }
         }
@@ -96,7 +124,9 @@ public class MyHashTable<T> implements Collection<T> {
         boolean modified = false;
 
         for (T element : c) {
-            modified |= add(element);
+            if (add(element)) {
+                modified = true;
+            }
         }
 
         return modified;
@@ -106,8 +136,10 @@ public class MyHashTable<T> implements Collection<T> {
     public boolean removeAll(Collection<?> c) {
         boolean modified = false;
 
-        for (Object obj : c) {
-            modified |= remove(obj);
+        for (Object element : c) {
+            if (remove(element)) {
+                modified = true;
+            }
         }
 
         return modified;
@@ -118,8 +150,8 @@ public class MyHashTable<T> implements Collection<T> {
         boolean modified = false;
 
         for (int i = 0; i < size; i++) {
-            if (table[i] != null && !c.contains(table[i])) {
-                table[i] = null;
+            if (!c.contains(table[i])) {
+                remove(table[i]);
                 modified = true;
             }
         }
@@ -129,28 +161,10 @@ public class MyHashTable<T> implements Collection<T> {
 
     @Override
     public void clear() {
-        Arrays.fill(table, null);
-    }
-
-    private class MyHashTableIterator implements Iterator<T> {
-        private int cursor;
-
-        public MyHashTableIterator() {
-            cursor = 0;
+        for (int i = 0; i < size; i++) {
+            table[i] = null;
         }
 
-        @Override
-        public boolean hasNext() {
-            return cursor < size;
-        }
-
-        @Override
-        public T next() {
-            if (hasNext()) {
-                return (T) table[cursor++];
-            }
-
-            throw new NoSuchElementException();
-        }
+        size = 0;
     }
 }
