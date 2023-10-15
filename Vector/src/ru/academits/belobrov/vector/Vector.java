@@ -52,7 +52,7 @@ public class Vector {
     }
 
     public void add(Vector vector) {
-        if (components.length < Math.max(components.length, vector.components.length)) {
+        if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);
         }
 
@@ -62,7 +62,7 @@ public class Vector {
     }
 
     public void subtract(Vector vector) {
-        if (components.length < Math.max(components.length, vector.components.length)) {
+        if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);
         }
 
