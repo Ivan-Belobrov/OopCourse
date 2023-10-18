@@ -4,9 +4,9 @@ class Node<E> {
     private E data;
     private Node<E> next;
 
-    public Node(E data, Node<E> head) {
+    public Node(E data, Node<E> nextNode) {
         this.data = data;
-        this.next = head;
+        this.next = nextNode;
     }
 
     public E getData() {

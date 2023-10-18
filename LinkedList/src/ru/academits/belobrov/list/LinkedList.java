@@ -1,6 +1,7 @@
 package ru.academits.belobrov.list;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class LinkedList<E> {
     private Node<E> head;
@@ -11,23 +12,18 @@ public class LinkedList<E> {
     }
 
     public E getFirst() {
-        if (head != null) {
-            return head.getData();
+        if (head == null) {
+            throw new NoSuchElementException("Список пустой.");
         }
 
-        throw new NoSuchElementException("Список пустой.");
+        return head.getData();
     }
 
     public E getByIndex(int index) {
         checkIndex(index);
-
         Node<E> nodeAtIndex = getNodeByIndex(index);
 
-        if (nodeAtIndex != null) {
-            return nodeAtIndex.getData();
-        } else {
-            throw new NullPointerException("Элемент с заданным индексом равен null.");
-        }
+        return nodeAtIndex.getData();
     }
 
     public E setByIndex(int index, E newValue) {
@@ -45,7 +41,7 @@ public class LinkedList<E> {
         checkIndex(index);
 
         if (index == 0) {
-            return deletedData();
+            return removeFirst();
         }
 
         Node<E> previousNode = getNodeByIndex(index);
@@ -67,17 +63,18 @@ public class LinkedList<E> {
 
         if (index == 0) {
             insertFirst(data);
-        } else {
-            Node<E> previousNode = getNodeByIndex(index - 1);
-            Node<E> node = previousNode.getNext();
-            previousNode.setNext(new Node<>(data, node));
-            size++;
+            return;
         }
+
+        Node<E> previousNode = getNodeByIndex(index - 1);
+        Node<E> currentNode = previousNode.getNext();
+        previousNode.setNext(new Node<>(data, currentNode));
+        size++;
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Недопустимый индекс: " + index + ", допустимый индекс [0, " + (size - 1) + "]");
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Недопустимый индекс: " + index + ", допустимый индекс [0, " + size + "]");
         }
     }
 
@@ -87,10 +84,6 @@ public class LinkedList<E> {
         Node<E> node = head;
 
         for (int i = 0; i < index; i++) {
-            if (node == null) {
-                throw new IndexOutOfBoundsException("Индекс выходит за пределы списка.");
-            }
-
             node = node.getNext();
         }
 
@@ -102,25 +95,14 @@ public class LinkedList<E> {
         Node<E> currentNode = head;
 
         while (currentNode != null) {
-            if (currentNode.getData() == null && value == null) {
+            if (Objects.equals(currentNode.getData(), value)) {
                 if (previousNode == null) {
                     head = head.getNext();
                 } else {
                     previousNode.setNext(currentNode.getNext());
                 }
 
-                size++;
-
-                return true;
-            } else if (currentNode.getData() == null && currentNode.getData().equals(value)) {
-                if (previousNode == null) {
-                    head = head.getNext();
-                } else {
-                    previousNode.setNext(currentNode.getNext());
-                }
-
-                size++;
-
+                size--;
                 return true;
             }
 
@@ -131,7 +113,7 @@ public class LinkedList<E> {
         return false;
     }
 
-    public E deletedData() {
+    public E removeFirst() {
         if (head == null) {
             throw new NoSuchElementException("Список пустой.");
         }
@@ -148,40 +130,43 @@ public class LinkedList<E> {
         Node<E> currentNode = head;
 
         while (currentNode != null) {
-            Node<E> next = currentNode.getNext();
+            Node<E> nextNode = currentNode.getNext();
             currentNode.setNext(previousNode);
             previousNode = currentNode;
-            currentNode = next;
+            currentNode = nextNode;
         }
 
         head = previousNode;
     }
 
     public LinkedList<E> copy() {
-        LinkedList<E> newList = new LinkedList<>();
+        LinkedList<E> copyList = new LinkedList<>();
         Node<E> currentNode = head;
-        Node<E> tail = null;
+        Node<E> previousNode = null;
 
-        while (currentNode != null) {
+        if (currentNode != null) {
             Node<E> newNode = new Node<>(currentNode.getData(), null);
-
-            if (tail == null) {
-                newList.head = newNode;
-            } else {
-                tail.setNext(newNode);
-            }
-
-            tail = newNode;
-            newList.size++;
+            copyList.head = newNode;
+            previousNode = newNode;
+            copyList.size++;
             currentNode = currentNode.getNext();
         }
 
-        return newList;
+        while (currentNode != null) {
+            Node<E> newNode = new Node<>(currentNode.getData(), null);
+            previousNode.setNext(newNode);
+            previousNode = newNode;
+            copyList.size++;
+            currentNode = currentNode.getNext();
+        }
+
+        return copyList;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("[ ");
         Node<E> node = head;
 
         while (node != null) {
@@ -189,6 +174,7 @@ public class LinkedList<E> {
             node = node.getNext();
         }
 
+        sb.append("]");
         return sb.toString();
     }
 }
