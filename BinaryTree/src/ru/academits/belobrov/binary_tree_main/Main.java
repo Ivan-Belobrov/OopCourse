@@ -1,10 +1,10 @@
-package ru.academits.belobrov.binaryTree_main;
+package ru.academits.belobrov.binary_tree_main;
 
-import ru.academits.belobrov.binaryTree.BinaryTree;
+import ru.academits.belobrov.binary_tree.BinarySearchTree;
 
 public class Main {
     public static void main(String[] args) {
-        BinaryTree tree = new BinaryTree();
+        BinarySearchTree tree = new BinarySearchTree();
 
         tree.insert(17);
         tree.insert(20);
@@ -13,7 +13,7 @@ public class Main {
         tree.insert(10);
         tree.insert(26);
 
-        System.out.println("Поиск узла 20: " + tree.search(20));
+        System.out.println("Поиск узла 20: " + tree.contains(20));
 
         tree.delete(20);
 
