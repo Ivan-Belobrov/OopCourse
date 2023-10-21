@@ -1,99 +1,109 @@
 package ru.academits.belobrov.binary_tree;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
+import java.util.function.Consumer;
 
 public class BinarySearchTree<T extends Comparable<T>> {
     private Node<T> root;
+    private Comparator<T> comparator;
+    private int size;
 
     public BinarySearchTree() {
-        this.root = null;
+        size = 1;
+    }
+
+    public BinarySearchTree(Comparator<T> comparator) {
+        this.comparator = comparator;
+        size = 1;
     }
 
     public void insert(T value) {
+        root = insertNode(root, value);
+    }
+
+    public Node<T> getRoot() {
+        return root;
+    }
+
+    private Node<T> insertNode(Node<T> root, T value) {
         Node<T> newNode = new Node<>(value);
 
         if (root == null) {
-            root = newNode;
-            return;
+            return newNode;
         }
 
         Node<T> current = root;
-        Node<T> parent;
+        Node<T> parent = null;
 
-        while (true) {
+        while (current != null) {
             parent = current;
 
             if (value.compareTo(current.value) < 0) {
                 current = current.left;
-
-                if (current == null) {
-                    parent.left = newNode;
-                    return;
-                }
             } else {
-                current = current.left;
-
-                if (current == null) {
-                    parent.right = newNode;
-                    return;
-                }
+                current = current.right;
             }
         }
-    }
 
-    private Node<T> insertNode(Node<T> root, T value) {
-        if (root == null) {
-            root = new Node<>(value);
-            return root;
+        if (value.compareTo(parent.value) < 0) {
+            parent.left = newNode;
+        } else {
+            parent.right = newNode;
         }
 
-        if (value.compareTo(root.value) < 0) {
-            root.left = insertNode(root.left, value);
-        } else if (value.compareTo(root.value) > 0) {
-            root.right = insertNode(root.right, value);
-        }
-
+        size++;
         return root;
     }
 
     public boolean contains(T value) {
+        return searchNode(root, value);
+    }
+
+    private boolean searchNode(Node<T> root, T value) {
         Node<T> current = root;
 
         while (current != null) {
-            int comparison = value.compareTo(current.value);
-
-            if (comparison == 0) {
+            if (value.equals(current.value)) {
                 return true;
-            } else if (comparison < 0) {
+            } else if (value.compareTo(current.value) < 0) {
                 current = current.left;
             } else {
-                current = current.left;
+                current = current.right;
             }
         }
 
         return false;
     }
 
-    private boolean searchNode(Node<T> root, T value) {
-        if (root == null) {
-            return false;
-        }
-
-        if (value.equals(root.value)) {
-            return true;
-        }
-
-        if (value.compareTo(root.value) < 0) {
-            return searchNode(root.left, value);
-        } else {
-            return searchNode(root.right, value);
-        }
+    public void delete(T value) {
+        root = deleteNode(root, value);
     }
 
-    public void delete(T value) {
+    private Node<T> getSuccessor(Node<T> node) {
+        Node<T> parent = node;
+        Node<T> successor = node;
+        Node<T> current = node.right;
+
+        while (current != null) {
+            parent = successor;
+            successor = current;
+            current = current.left;
+        }
+
+        if (successor != node.right) {
+            parent.left = successor.right;
+            successor.right = node.right;
+        }
+
+        return successor;
+    }
+
+    private Node<T> deleteNode(Node<T> root, T value) {
         Node<T> current = root;
-        Node<T> parent = root;
+        Node<T> parent = null;
         boolean isLeftChild = true;
 
         while (current != null && current.value.compareTo(value) != 0) {
@@ -109,7 +119,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
         }
 
         if (current == null) {
-            return;
+            return root;
         }
 
         if (current.left == null && current.right == null) {
@@ -137,101 +147,41 @@ public class BinarySearchTree<T extends Comparable<T>> {
                 parent.right = current.right;
             }
         } else {
-            Node<T> successor = getSuccessor(current);
-
-            if (current == root) {
-                root = successor;
-            } else if (isLeftChild) {
-                parent.left = successor;
-            } else {
-                parent.right = successor;
-            }
-
-            successor.left = current.left;
-        }
-    }
-
-    private Node<T> getSuccessor(Node<T> node) {
-        Node<T> parent = node;
-        Node<T> successor = node;
-        Node<T> current = node.right;
-
-        while (current != null) {
-            parent = successor;
-            successor = current;
-            current = current.left;
+            deleteNodeWithTwoChildren(current, parent, isLeftChild);
         }
 
-        if (successor != node.right) {
-            parent.left = successor.right;
-            successor.right = node.right;
-        }
-
-        return successor;
-    }
-
-    private Node<T> deleteNode(Node<T> root, T value) {
-        if (root == null) {
-            return null;
-        }
-
-        if (value.compareTo(root.value) < 0) {
-            root.left = deleteNode(root.left, value);
-        } else if (value.compareTo(root.value) > 0) {
-            root.right = deleteNode(root.right, value);
-        } else {
-            if (root.left == null) {
-                return root.right;
-            } else if (root.right == null) {
-                return root.left;
-            }
-
-            root.value = minValue(root.right);
-            root.right = deleteNode(root.right, root.value);
-        }
-
+        size--;
         return root;
     }
 
-    private T minValue(Node<T> root) {
-        T minValue = root.value;
+    private void deleteNodeWithTwoChildren(Node<T> current, Node<T> parent, boolean isLeftChild) {
+        Node<T> successor = getSuccessor(current);
 
+        if (current == root) {
+            root = successor;
+        } else if (isLeftChild) {
+            parent.left = successor;
+        } else {
+            parent.right = successor;
+        }
+
+        successor.left = current.left;
+    }
+
+    private T findMinValue(Node<T> root) {
         while (root.left != null) {
-            minValue = root.left.value;
             root = root.left;
         }
 
-        return minValue;
+        return root.value;
     }
 
-    private int getSize(Node<T> root) {
-        if (root == null) {
-            return 0;
-        }
-
-        int size = 1;
-        Queue<Node<T>> queue = new LinkedList<>();
-        queue.add(root);
-
-        while (!queue.isEmpty()) {
-            Node<T> current = queue.poll();
-
-            if (current.left != null) {
-                size++;
-                queue.add(current.left);
-            }
-
-            if (current.right != null) {
-                size++;
-                queue.add(current.right);
-            }
-        }
-
+    public int getSize() {
         return size;
     }
 
 
-    public void breadthFirstTraversal() {
+    public void traversalBreadthFirst(Consumer<T> action) {
         if (root == null) {
             return;
         }
@@ -241,7 +191,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
 
         while (!queue.isEmpty()) {
             Node<T> current = queue.poll();
-            System.out.println(current.value + " ");
+            action.accept(current.value);
 
             if (current.left != null) {
                 queue.add(current.left);
@@ -253,27 +203,61 @@ public class BinarySearchTree<T extends Comparable<T>> {
         }
     }
 
-    public void depthFirstTraversal() {
-        depthFirstTraversal(root);
+    public void traversalDepthFirstRecursive(Consumer<T> action) {
+        traversalDepthFirstRecursive(root, action);
     }
 
-    private void depthFirstTraversal(Node<T> root) {
+    private void traversalDepthFirstRecursive(Node<T> root, Consumer<T> action) {
         if (root != null) {
-            System.out.println(root.value + " ");
-            depthFirstTraversal(root.left);
-            depthFirstTraversal(root.right);
+            traversalDepthFirstRecursive(root.left, action);
+            action.accept(root.value);
+            traversalDepthFirstRecursive(root.right, action);
         }
     }
 
-    public void depthFirstTraversalRecursive() {
-        depthFirstTraversalRecursive(root);
+    public void traversalDepthFirstIterative(Consumer<T> action) {
+        if (root == null) {
+            return;
+        }
+
+        Stack<Node<T>> stack = new Stack<>();
+        Node<T> current = root;
+
+        while (current != null || !stack.isEmpty()) {
+            while (current != null) {
+                stack.push(current);
+                current = current.left;
+            }
+
+            current = stack.pop();
+            action.accept(current.value);
+
+            current = current.right;
+        }
     }
 
-    private void depthFirstTraversalRecursive(Node<T> root) {
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        toString(root, sb);
+
+        return sb.toString();
+    }
+
+    private void toString(Node<T> root, StringBuilder sb) {
         if (root != null) {
-            depthFirstTraversalRecursive(root.left);
-            System.out.println(root.value + " ");
-            depthFirstTraversalRecursive(root.right);
+            toString(root.left, sb);
+            sb.append(root.value).append(' ');
+            toString(root.right, sb);
+        }
+    }
+
+    private int compare(T value1, T value2) {
+        if (comparator != null) {
+            return comparator.compare(value1, value2);
+        } else if (value1 != null && value2 != null) {
+            return (value1.compareTo(value2));
+        } else {
+            throw new IllegalArgumentException("Нет валидного компаратора или сопоставимой реализации.");
         }
     }
 }
