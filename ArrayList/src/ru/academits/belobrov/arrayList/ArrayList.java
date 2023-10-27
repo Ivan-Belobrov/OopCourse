@@ -2,13 +2,18 @@ package ru.academits.belobrov.arrayList;
 
 import java.util.*;
 
-public class ArrayList<T> implements List<T> {
-    private Object[] elements;
+public class ArrayList<E> implements List<E> {
+    private E[] elements;
     private int size;
+    private final int modCount = 0;
 
+    @SuppressWarnings("unchecked")
     public ArrayList(int capacity) {
-        elements = new Object[capacity];
-        size = 0;
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Вместимость списка не может быть отрицательной.");
+        }
+
+        elements = (E[]) new Object[capacity];
     }
 
     @Override
@@ -23,17 +28,11 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (o.equals(elements[i])) {
-                return true;
-            }
-        }
-
-        return false;
+        return indexOf(o) >= 0;
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<E> iterator() {
         return new ArrayListIterator();
     }
 
@@ -42,10 +41,11 @@ public class ArrayList<T> implements List<T> {
         return Arrays.copyOf(elements, size);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public <T1> T1[] toArray(T1[] a) {
+    public <T> T[] toArray(T[] a) {
         if (a.length < size) {
-            return (T1[]) Arrays.copyOf(elements, size, a.getClass());
+            return (T[]) Arrays.copyOf(elements, size, a.getClass());
         }
 
         System.arraycopy(elements, 0, a, 0, size);
@@ -58,34 +58,25 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean add(T t) {
-        if (size == elements.length) {
-            ensureCapacity(size + 1);
-        }
-
-        elements[size] = t;
-        size++;
-
+    public boolean add(E element) {
+        add(size, element);
         return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (o.equals(elements[i])) {
-                remove(i);
-
-                return true;
-            }
+        int index = indexOf(o);
+        if (index != -1) {
+            remove(index);
+            return true;
         }
-
         return false;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object oby : c) {
-            if (!contains(oby)) {
+        for (Object obj : c) {
+            if (!contains(obj)) {
                 return false;
             }
         }
@@ -94,119 +85,143 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> c) {
+    public boolean addAll(Collection<? extends E> c) {
         return addAll(size, c);
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends T> c) {
-        if (index < 0 && index > size) {
-            throw new IndexOutOfBoundsException("Индекс: " + index + ", размер: " + size);
+    public boolean addAll(int index, Collection<? extends E> collection) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Индекс " + index + " находится за пределами допустимого диапазона [0, " + size + "]");
         }
 
-        Object[] arr = c.toArray();
-        int numNew = arr.length;
-
-        if (numNew == 0) {
+        if (collection.isEmpty()) {
             return false;
         }
 
-        ensureCapacity(size + numNew);
-        int numMoved = size - index;
+        ensureCapacity(size + collection.size());
+        int elementsToMoved = size - index;
 
-        if (numMoved > 0) {
-            System.arraycopy(elements, index, elements, index + numNew, numMoved);
+        if (elementsToMoved > 0) {
+            System.arraycopy(elements, index, elements, index + collection.size(), elementsToMoved);
         }
 
-        System.arraycopy(arr, 0, elements, index, numNew);
-        size += numNew;
+        int currentIndex = index;
+
+        for (E element : collection) {
+            elements[currentIndex] = element;
+            currentIndex++;
+        }
+
+        size += collection.size();
         return true;
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
-        boolean modified = false;
+    public boolean removeAll(Collection<?> collection) {
+        if (collection.isEmpty()) {
+            return false;
+        }
 
-        for (int i = 0; i < size; i++) {
-            if (c.contains(elements[i])) {
+        boolean isModified = false;
+
+        for (int i = size - 1; i >= 0; i--) {
+            if (collection.contains(elements[i])) {
                 remove(i);
-                i--;
-                modified = true;
+                isModified = true;
             }
         }
 
-        return modified;
+        return isModified;
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
-        boolean modified = false;
+    public boolean retainAll(Collection<?> collection) {
+        if (collection.isEmpty()) {
+            clear();
+            return true;
+        }
 
-        for (int i = 0; i < size; i++) {
-            if (c.contains(elements[i])) {
+        boolean isModified = false;
+
+        for (int i = size - 1; i >= 0; i--) {
+            if (collection.contains(elements[i])) {
                 remove(i);
-                i--;
-                modified = true;
+                isModified = true;
             }
         }
 
-        return modified;
+        return isModified;
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            elements[i] = null;
+        if (size == 0) {
+            return;
         }
 
+        Arrays.fill(elements, 0, size, null);
         size = 0;
     }
 
     @Override
-    public T get(int index) {
+    public E get(int index) {
         checkIndex(index);
-        return (T) elements[index];
+        return elements[index];
     }
 
     @Override
-    public T set(int index, T element) {
+    public E set(int index, E element) {
         checkIndex(index);
-        T oldValue = (T) elements[index];
+        E oldElement = elements[index];
         elements[index] = element;
 
-        return oldValue;
+        return oldElement;
     }
 
     @Override
-    public void add(int index, T element) {
+    public void add(int index, E element) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс: " + index + ", размер: " + size);
+            int minIndex = 0;
+            int maxIndex = size;
+            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от " + minIndex + " до " + maxIndex + ". Переданный индекс: " + index);
         }
+
         ensureCapacity(size + 1);
+
         System.arraycopy(elements, index, elements, index + 1, size - index);
         elements[index] = element;
         size++;
     }
 
     @Override
-    public T remove(int index) {
+    public E remove(int index) {
         checkIndex(index);
-        T oldValue = (T) elements[index];
-        int numMoved = size - index - 1;
+        E removedElement = (E) elements[index];
+        int elementsToMove = size - index - 1;
 
-        if (numMoved > 0) {
-            System.arraycopy(elements, index + 1, elements, index, numMoved);
+        if (elementsToMove > 0) {
+            System.arraycopy(elements, index + 1, elements, index, elementsToMove);
         }
 
-        elements[--size] = null;
-        return oldValue;
+        elements[size - 1] = null;
+        size--;
+        return removedElement;
     }
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (o.equals(elements[i])) {
-                return i;
+        if (o == null) {
+            for (int i = 0; i < size; i++) {
+                if (elements[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (o.equals(elements[i])) {
+                    return i;
+                }
             }
         }
 
@@ -215,149 +230,134 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (o.equals(elements[i])) {
-                return i;
+        if (o == null) {
+            for (int i = size - 1; i >= 0; i--) {
+                if (elements[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = size - 1; i >= 0; i--) {
+                if (o.equals(elements[i])) {
+                    return i;
+                }
             }
         }
-
         return -1;
     }
 
     @Override
-    public ListIterator<T> listIterator() {
+    public ListIterator<E> listIterator() {
         return null;
     }
 
     @Override
-    public ListIterator<T> listIterator(int index) {
+    public ListIterator<E> listIterator(int index) {
         return null;
     }
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
+    public List<E> subList(int fromIndex, int toIndex) {
         return null;
     }
 
-    private void ensureCapacity(int minCapacity) {
-        if (elements.length < minCapacity) {
-            int newCapacity = elements.length + (elements.length >> 1);
+    public void ensureCapacity(int minCapacity) {
+        int oldCapacity = elements.length;
+        if (minCapacity > oldCapacity) {
+            int newCapacity = oldCapacity * 2;
+            if (newCapacity < minCapacity) {
+                newCapacity = minCapacity;
+            }
             elements = Arrays.copyOf(elements, newCapacity);
         }
     }
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Индекс: " + index + ", размер: " + size);
+            throw new IndexOutOfBoundsException("Индекс " + index + " находится за пределами допустимого диапазона [0, " + (size - 1) + "]");
         }
     }
 
-    private class ArrayListIterator implements ListIterator<T> {
-        private int cursor;
-        private int lastRet = -1;
+    private class ArrayListIterator implements Iterator<E> {
+        private int currentIndex;
+        private int previousIndex = -1;
+        private int expectedModCount = modCount;
 
         public ArrayListIterator() {
             this(0);
         }
 
         public ArrayListIterator(int index) {
-            cursor = index;
+            currentIndex = index;
         }
 
         @Override
         public boolean hasNext() {
-            return cursor != size;
+            return currentIndex != size;
         }
 
         @Override
-        public T next() {
-            int i = cursor;
+        public E next() {
+            checkForModification();
 
-            if (i >= size) {
-                throw new NoSuchElementException("Элемент по индексу не найден: " + i);
+            if (!hasNext()) {
+                throw new NoSuchElementException("Элемент не найден.");
             }
 
-            Object[] elementData = ArrayList.this.elements;
+            previousIndex = currentIndex;
 
-            if (i >= elementData.length) {
-                throw new ConcurrentModificationException("Одновременная модификация, обнаруженная в индексе: " + i);
-            }
-
-            cursor = i + 1;
-
-            return (T) elementData[lastRet = i];
-        }
-
-        @Override
-        public boolean hasPrevious() {
-            return cursor != 0;
-        }
-
-        @Override
-        public T previous() {
-            int i = cursor - 1;
-
-            if (i < 0) {
-                throw new NoSuchElementException("Элемент по индексу не найден: " + i);
-            }
-
-            Object[] elementData = ArrayList.this.elements;
-
-            if (i >= elementData.length) {
-                throw new ConcurrentModificationException("Одновременная модификация, обнаруженная в индексе: " + i);
-            }
-            cursor = i;
-
-            return (T) elementData[lastRet = i];
-        }
-
-        @Override
-        public int nextIndex() {
-            return cursor;
-        }
-
-        @Override
-        public int previousIndex() {
-            return cursor - 1;
+            return (E) elements[currentIndex++];
         }
 
         @Override
         public void remove() {
-            if (lastRet < 0) {
+            checkForModification();
+
+            if (previousIndex < 0) {
                 throw new IllegalStateException("Нет элемента, который нужно удалить.");
             }
 
             try {
-                ArrayList.this.remove(lastRet);
-                cursor = lastRet;
-                lastRet = -1;
+                ArrayList.this.remove(previousIndex);
+                currentIndex = previousIndex;
+                previousIndex = -1;
+                expectedModCount = modCount;
             } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при удалении элемента с индексом: " + lastRet);
+                throw new ConcurrentModificationException("Обнаружена одновременная модификация при удалении элемента с индексом: " + previousIndex);
             }
         }
 
-        @Override
-        public void set(T t) {
-            if (lastRet < 0) {
+        public void set(E element) {
+            checkForModification();
+
+            if (previousIndex < 0) {
                 throw new IllegalStateException("Нет элемента для установки.");
             }
 
             try {
-                ArrayList.this.set(lastRet, t);
+                ArrayList.this.set(previousIndex, element);
+                expectedModCount = modCount;
             } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при удалении элемента с индексом: " + lastRet);
+                throw new ConcurrentModificationException("Обнаружена одновременная модификация при удалении элемента с индексом: " + previousIndex);
             }
         }
 
-        @Override
-        public void add(T t) {
+        public void add(E element) {
+            checkForModification();
+
             try {
-                int i = cursor;
-                ArrayList.this.add(i, t);
-                cursor = i + 1;
-                lastRet = -1;
+                ArrayList.this.add(currentIndex, element);
+                currentIndex++;
+                previousIndex = -1;
+                expectedModCount = modCount;
             } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при добавлении элемента по индексу: " + cursor);
+                throw new ConcurrentModificationException("Обнаружена одновременная модификация при добавлении элемента по индексу: " + currentIndex);
+            }
+        }
+
+        private void checkForModification() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException("Список был модифицирован.");
             }
         }
     }
