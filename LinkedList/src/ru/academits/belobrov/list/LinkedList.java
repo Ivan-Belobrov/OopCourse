@@ -21,20 +21,20 @@ public class LinkedList<E> {
 
     public E getByIndex(int index) {
         checkIndex(index);
-        Node<E> nodeAtIndex = getNodeByIndex(index);
+        Node<E> node = getNodeByIndex(index);
 
-        return nodeAtIndex.getData();
+        return node.getData();
     }
 
-    public E setByIndex(int index, E newValue) {
+    public E setByIndex(int index, E newData) {
         checkIndex(index);
 
-        Node<E> nodeAtIndex = getNodeByIndex(index);
+        Node<E> node = getNodeByIndex(index);
 
-        E oldValue = nodeAtIndex.getData();
-        nodeAtIndex.setData(newValue);
+        E oldData = node.getData();
+        node.setData(newData);
 
-        return oldValue;
+        return oldData;
     }
 
     public E removeAtIndex(int index) {
@@ -61,6 +61,19 @@ public class LinkedList<E> {
     public void insert(int index, E data) {
         checkIndex(index);
 
+        if (index == size) {
+            Node<E> node = new Node<>(data, null);
+
+            if (head == null) {
+                head = node;
+            } else {
+                Node<E> lastNode = getNodeByIndex(size - 1);
+                lastNode.setNext(node);
+            }
+
+            size++;
+        }
+
         if (index == 0) {
             insertFirst(data);
             return;
@@ -74,7 +87,7 @@ public class LinkedList<E> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Недопустимый индекс: " + index + ", допустимый индекс [0, " + size + "]");
+            throw new IndexOutOfBoundsException("Индекс: " + index + ", находится вне диапазона допустимых значений [0, " + (size - 1) + "]");
         }
     }
 
@@ -90,12 +103,12 @@ public class LinkedList<E> {
         return node;
     }
 
-    public boolean removeByValue(E value) {
+    public boolean removeByData(E data) {
         Node<E> previousNode = null;
         Node<E> currentNode = head;
 
         while (currentNode != null) {
-            if (Objects.equals(currentNode.getData(), value)) {
+            if (Objects.equals(currentNode.getData(), data)) {
                 if (previousNode == null) {
                     head = head.getNext();
                 } else {
@@ -118,11 +131,11 @@ public class LinkedList<E> {
             throw new NoSuchElementException("Список пустой.");
         }
 
-        E data = head.getData();
+        E removedData = head.getData();
         head = head.getNext();
         size--;
 
-        return data;
+        return removedData;
     }
 
     public void reverse() {
@@ -141,21 +154,24 @@ public class LinkedList<E> {
 
     public LinkedList<E> copy() {
         LinkedList<E> copyList = new LinkedList<>();
+
+        if (head == null) {
+            return copyList;
+        }
+
         Node<E> currentNode = head;
         Node<E> previousNode = null;
 
-        if (currentNode != null) {
-            Node<E> newNode = new Node<>(currentNode.getData(), null);
-            copyList.head = newNode;
-            previousNode = newNode;
-            copyList.size++;
-            currentNode = currentNode.getNext();
-        }
+        copyList.head = new Node<>(currentNode.getData());
+
+        previousNode = copyList.head;
+        copyList.size++;
+
+        currentNode = currentNode.getNext();
 
         while (currentNode != null) {
-            Node<E> newNode = new Node<>(currentNode.getData(), null);
-            previousNode.setNext(newNode);
-            previousNode = newNode;
+            previousNode.setNext(new Node<>(currentNode.getData()));
+            previousNode = previousNode.getNext();
             copyList.size++;
             currentNode = currentNode.getNext();
         }
@@ -165,12 +181,21 @@ public class LinkedList<E> {
 
     @Override
     public String toString() {
+        if (head == null) {
+            return "[]";
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append("[ ");
         Node<E> node = head;
 
         while (node != null) {
-            sb.append(node.getData()).append(" ");
+            sb.append(node.getData());
+
+            if (node.getNext() != null) {
+                sb.append(", ");
+            }
+
             node = node.getNext();
         }
 
