@@ -2,6 +2,7 @@ package ru.academits.belobrov.list;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class LinkedList<E> {
     private Node<E> head;
@@ -21,18 +22,17 @@ public class LinkedList<E> {
 
     public E getByIndex(int index) {
         checkIndex(index);
-        Node<E> node = getNodeByIndex(index);
 
-        return node.getData();
+        return getNodeByIndex(index).getData();
     }
 
-    public E setByIndex(int index, E newData) {
+    public E setByIndex(int index, E data) {
         checkIndex(index);
 
         Node<E> node = getNodeByIndex(index);
 
         E oldData = node.getData();
-        node.setData(newData);
+        node.setData(data);
 
         return oldData;
     }
@@ -61,19 +61,6 @@ public class LinkedList<E> {
     public void insert(int index, E data) {
         checkIndex(index);
 
-        if (index == size) {
-            Node<E> node = new Node<>(data, null);
-
-            if (head == null) {
-                head = node;
-            } else {
-                Node<E> lastNode = getNodeByIndex(size - 1);
-                lastNode.setNext(node);
-            }
-
-            size++;
-        }
-
         if (index == 0) {
             insertFirst(data);
             return;
@@ -92,8 +79,6 @@ public class LinkedList<E> {
     }
 
     private Node<E> getNodeByIndex(int index) {
-        checkIndex(index);
-
         Node<E> node = head;
 
         for (int i = 0; i < index; i++) {
@@ -160,18 +145,17 @@ public class LinkedList<E> {
         }
 
         Node<E> currentNode = head;
-        Node<E> previousNode = null;
 
         copyList.head = new Node<>(currentNode.getData());
 
-        previousNode = copyList.head;
-        copyList.size++;
+        Node<E> previousCopyNode = copyList.head;
+        copyList.size = 1;
 
         currentNode = currentNode.getNext();
 
         while (currentNode != null) {
-            previousNode.setNext(new Node<>(currentNode.getData()));
-            previousNode = previousNode.getNext();
+            previousCopyNode.setNext(new Node<>(currentNode.getData()));
+            previousCopyNode = previousCopyNode.getNext();
             copyList.size++;
             currentNode = currentNode.getNext();
         }
@@ -181,25 +165,14 @@ public class LinkedList<E> {
 
     @Override
     public String toString() {
-        if (head == null) {
-            return "[]";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("[ ");
+        StringJoiner sj = new StringJoiner(",");
         Node<E> node = head;
 
         while (node != null) {
-            sb.append(node.getData());
-
-            if (node.getNext() != null) {
-                sb.append(", ");
-            }
-
+            sj.add(node.getData().toString());
             node = node.getNext();
         }
 
-        sb.append("]");
-        return sb.toString();
+        return "[" + sj + "]";
     }
 }

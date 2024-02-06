@@ -1,6 +1,7 @@
 package ru.academits.belobrov.list_main;
 
 import ru.academits.belobrov.list.LinkedList;
+
 public class Main {
     public static void main(String[] args) {
         LinkedList<Integer> list = new LinkedList<>();
