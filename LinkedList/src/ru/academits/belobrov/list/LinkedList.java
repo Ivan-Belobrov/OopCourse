@@ -59,9 +59,11 @@ public class LinkedList<E> {
     }
 
     public void insert(int index, E data) {
-        checkIndex(index);
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Индекс не может быть отрицательным " + index);
+        }
 
-        if (index == 0) {
+        if (index == 0 || index == size) {
             insertFirst(data);
             return;
         }
@@ -154,8 +156,9 @@ public class LinkedList<E> {
         currentNode = currentNode.getNext();
 
         while (currentNode != null) {
-            previousCopyNode.setNext(new Node<>(currentNode.getData()));
-            previousCopyNode = previousCopyNode.getNext();
+            Node<E> newNode = new Node<>(currentNode.getData());
+            previousCopyNode.setNext(newNode);
+            previousCopyNode = newNode;
             copyList.size++;
             currentNode = currentNode.getNext();
         }
@@ -165,7 +168,7 @@ public class LinkedList<E> {
 
     @Override
     public String toString() {
-        StringJoiner sj = new StringJoiner(",");
+        StringJoiner sj = new StringJoiner(", ", "[", "]");
         Node<E> node = head;
 
         while (node != null) {
@@ -173,6 +176,6 @@ public class LinkedList<E> {
             node = node.getNext();
         }
 
-        return "[" + sj + "]";
+        return sj.toString();
     }
 }

@@ -22,19 +22,19 @@ public class Main {
         int removedElement = list.removeAtIndex(0);
         System.out.println("Удаленный Элемент: " + removedElement);
 
-        System.out.print("Список после удаления элемента: ");
+        System.out.print("Список после удаления элемента:");
         System.out.println(list);
 
         list.insert(1, 3);
-        System.out.print("Список после добавления элемента: ");
+        System.out.print("Список после добавления элемента:");
         System.out.println(list);
 
         LinkedList<Integer> copiedList = list.copy();
-        System.out.print("Копия списка: ");
+        System.out.print("Копия списка:");
         System.out.println(copiedList);
 
         list.reverse();
-        System.out.print("Развернутый список: ");
+        System.out.print("Развернутый список:");
         System.out.println(list);
 
         boolean isRemoved = list.removeByData(3);
