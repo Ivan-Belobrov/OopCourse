@@ -1,4 +1,4 @@
-package ru.academits.belobrov.main_hash_table;
+package ru.academits.belobrov.hash_table_main;
 
 import ru.academits.belobrov.hash_table.HashTable;
 
@@ -19,7 +19,7 @@ public class Main {
         System.out.println("Размер после удаления 'Вишня': " + hashTable.size());
         System.out.println("Содержит 'Вишня' " + hashTable.contains("Вишня"));
 
-        System.out.println("Перебор Элементов: ");
+        System.out.println("Перебор Элементов:");
         for (String element : hashTable) {
             System.out.println(element);
         }

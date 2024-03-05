@@ -9,7 +9,7 @@ public class HashTable<E> implements Collection<E> {
 
     public HashTable(int capacity) {
         if (capacity <= 0) {
-            throw new IllegalArgumentException("Емкость должна быть положительным значением.");
+            throw new IllegalArgumentException("Вместимость должна быть положительным значением, передано: " + capacity);
         }
 
         //noinspection unchecked
@@ -36,18 +36,21 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-            private int currentIndex;
+            private int listIndex;
+            private int elementIndex;
+            private int iteratedElements;
             private final int expectedModificationCount = modificationsCount;
 
             @Override
             public boolean hasNext() {
-                checkForModification();
-                return currentIndex < size;
+                return iteratedElements < size;
             }
 
             @Override
             public E next() {
-                checkForModification();
+                if (modificationsCount != expectedModificationCount) {
+                    throw new ConcurrentModificationException("Коллекция была изменена.");
+                }
 
                 if (!hasNext()) {
                     throw new NoSuchElementException("В коллекции больше нет элементов.");
@@ -55,23 +58,27 @@ public class HashTable<E> implements Collection<E> {
 
                 E element = null;
 
-                for (List<E> list : lists) {
-                    if (list != null && !list.isEmpty()) {
-                        element = list.remove(0);
+                while (listIndex < lists.length) {
+                    List<E> currentList = lists[listIndex];
+
+                    if (currentList != null && !currentList.isEmpty()) {
+                        element = currentList.get(elementIndex);
+                        elementIndex++;
+                        iteratedElements++;
+
+                        if (elementIndex >= currentList.size()) {
+                            listIndex++;
+                            elementIndex = 0;
+                        }
+
                         break;
                     }
+
+                    listIndex++;
                 }
 
-                currentIndex++;
                 return element;
             }
-
-            private void checkForModification() {
-                if (modificationsCount != expectedModificationCount) {
-                    throw new ConcurrentModificationException("Коллекция была изменена.");
-                }
-            }
-
         };
     }
 
@@ -82,9 +89,9 @@ public class HashTable<E> implements Collection<E> {
 
         for (List<E> list : lists) {
             if (list != null) {
-
                 for (E element : list) {
-                    result[index++] = element;
+                    result[index] = element;
+                    index++;
                 }
             }
         }
@@ -105,7 +112,8 @@ public class HashTable<E> implements Collection<E> {
             if (list != null) {
                 for (E element : list) {
                     //noinspection unchecked
-                    array[index++] = (T) element;
+                    array[index] = (T) element;
+                    index++;
                 }
             }
         }
@@ -161,10 +169,19 @@ public class HashTable<E> implements Collection<E> {
             return false;
         }
 
+        for (E element : collection) {
+            add(element);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> collection) {
         boolean isModified = false;
 
-        for (E element : collection) {
-            if (add(element)) {
+        for (Object item : collection) {
+            while (remove(item)) {
                 isModified = true;
             }
         }
@@ -173,43 +190,30 @@ public class HashTable<E> implements Collection<E> {
     }
 
     @Override
-    public boolean removeAll(Collection<?> collection) {
-        boolean modified = false;
-
-        for (Object item : collection) {
-            if (remove(item)) {
-                modified = true;
-            }
-        }
-
-        return modified;
-    }
-
-    @Override
     public boolean retainAll(Collection<?> collection) {
-        boolean modified = false;
+        boolean isModified = false;
 
         for (List<E> list : lists) {
             if (list != null) {
-                modified |= list.retainAll(collection);
+                int initialSize = list.size();
+                isModified |= list.retainAll(collection);
 
-                if (!list.isEmpty()) {
-                    size -= list.size();
-                    list.clear();
+                if (list.isEmpty() && initialSize > 0) {
+                    size -= initialSize;
                 }
             }
         }
 
-        if (modified){
+        if (isModified) {
             modificationsCount++;
         }
 
-        return modified;
+        return isModified;
     }
 
     @Override
     public void clear() {
-        if (isEmpty()){
+        if (isEmpty()) {
             return;
         }
 
