@@ -36,7 +36,6 @@ public class LinkedList<E> {
 
         return oldData;
     }
-
     public E removeAtIndex(int index) {
         checkIndex(index);
 
@@ -58,13 +57,25 @@ public class LinkedList<E> {
         size++;
     }
 
+    public void insertLast(E data) {
+        Node<E> newNode = new Node<>(data);
+        Node<E> lastNode = getNodeByIndex(size - 1);
+        lastNode.setNext(newNode);
+        size++;
+    }
+
     public void insert(int index, E data) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Индекс не может быть отрицательным " + index);
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Индекс не может быть отрицательным или выходить за пределы списка: " + index);
         }
 
-        if (index == 0 || index == size) {
+        if (index == 0) {
             insertFirst(data);
+            return;
+        }
+
+        if (index == size) {
+            insertLast(data);
             return;
         }
 
@@ -150,15 +161,14 @@ public class LinkedList<E> {
 
         copyList.head = new Node<>(currentNode.getData());
 
-        Node<E> previousCopyNode = copyList.head;
+        Node<E> previousNode = copyList.head;
         copyList.size = 1;
 
         currentNode = currentNode.getNext();
 
         while (currentNode != null) {
-            Node<E> newNode = new Node<>(currentNode.getData());
-            previousCopyNode.setNext(newNode);
-            previousCopyNode = newNode;
+            previousNode.setNext(new Node<>(currentNode.getData()));
+            previousNode = previousNode.getNext();
             copyList.size++;
             currentNode = currentNode.getNext();
         }
