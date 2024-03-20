@@ -85,13 +85,13 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public Object[] toArray() {
         Object[] result = new Object[size];
-        int index = 0;
+        int i = 0;
 
         for (List<E> list : lists) {
             if (list != null) {
                 for (E element : list) {
-                    result[index] = element;
-                    index++;
+                    result[i] = element;
+                    i++;
                 }
             }
         }
@@ -106,14 +106,14 @@ public class HashTable<E> implements Collection<E> {
             return (T[]) Arrays.copyOf(toArray(), size, array.getClass());
         }
 
-        int index = 0;
+        int i = 0;
 
         for (List<E> list : lists) {
             if (list != null) {
                 for (E element : list) {
                     //noinspection unchecked
-                    array[index] = (T) element;
-                    index++;
+                    array[i] = (T) element;
+                    i++;
                 }
             }
         }
@@ -197,10 +197,7 @@ public class HashTable<E> implements Collection<E> {
             if (list != null) {
                 int initialSize = list.size();
                 isModified |= list.retainAll(collection);
-
-                if (list.isEmpty() && initialSize > 0) {
-                    size -= initialSize;
-                }
+                size -= initialSize - list.size();
             }
         }
 
@@ -222,7 +219,7 @@ public class HashTable<E> implements Collection<E> {
         modificationsCount++;
     }
 
-    public int getIndex(Object obj) {
+    private int getIndex(Object obj) {
         if (obj == null) {
             return 0;
         }
