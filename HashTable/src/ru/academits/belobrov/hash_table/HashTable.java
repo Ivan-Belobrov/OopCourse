@@ -226,4 +226,25 @@ public class HashTable<E> implements Collection<E> {
 
         return Math.abs(obj.hashCode() % lists.length);
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+
+        for (List<E> list : lists) {
+            if (list != null && !list.isEmpty()) {
+                for (E element : list) {
+                    sb.append(element).append(", ");
+                }
+            }
+        }
+
+        if (sb.length() > 10) {
+            sb.setLength(sb.length() - 2);
+        }
+
+        sb.append("}");
+
+        return sb.toString();
+    }
 }

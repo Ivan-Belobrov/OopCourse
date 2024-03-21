@@ -21,7 +21,7 @@ public class Main {
 
         System.out.println("Перебор Элементов:");
         for (String element : hashTable) {
-            System.out.println(element);
+            System.out.print(element);
         }
     }
 }
