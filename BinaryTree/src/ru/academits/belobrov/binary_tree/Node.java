@@ -1,13 +1,31 @@
 package ru.academits.belobrov.binary_tree;
 
-class Node<T> {
-    public T value;
-    public Node<T> left;
-    public Node<T> right;
+class Node<E> {
+    private final E value;
+    private Node<E> left;
+    private Node<E> right;
 
-    public Node(T value) {
+    public Node(E value) {
         this.value = value;
-        this.left = null;
-        this.right = null;
+    }
+
+    public E getValue() {
+        return value;
+    }
+
+    public Node<E> getLeft() {
+        return left;
+    }
+
+    public void setLeft(Node<E> left) {
+        this.left = left;
+    }
+
+    public Node<E> getRight() {
+        return right;
+    }
+
+    public void setRight(Node<E> right) {
+        this.right = right;
     }
 }
