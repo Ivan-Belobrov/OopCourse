@@ -1,18 +1,22 @@
-package ru.academits.belobrov.arrayList;
+package ru.academits.belobrov.array_list;
 
 import java.util.*;
 
 public class ArrayList<E> implements List<E> {
     private E[] elements;
     private int size;
-    private final int modCount = 0;
+    private int modCount = 0;
 
-    @SuppressWarnings("unchecked")
+    public ArrayList(){
+        this.size = size();
+    }
+
     public ArrayList(int capacity) {
         if (capacity < 0) {
-            throw new IllegalArgumentException("Вместимость списка не может быть отрицательной.");
+            throw new IllegalArgumentException("Вместимость списка не может быть отрицательной. Переданное значения: " + capacity);
         }
 
+        //noinspection unchecked
         elements = (E[]) new Object[capacity];
     }
 
@@ -41,10 +45,10 @@ public class ArrayList<E> implements List<E> {
         return Arrays.copyOf(elements, size);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] a) {
         if (a.length < size) {
+            //noinspection unchecked
             return (T[]) Arrays.copyOf(elements, size, a.getClass());
         }
 
@@ -100,17 +104,17 @@ public class ArrayList<E> implements List<E> {
         }
 
         ensureCapacity(size + collection.size());
-        int elementsToMoved = size - index;
+        int elementsToMoveNumber = size - index;
 
-        if (elementsToMoved > 0) {
-            System.arraycopy(elements, index, elements, index + collection.size(), elementsToMoved);
+        if (elementsToMoveNumber > 0) {
+            System.arraycopy(elements, index, elements, index + collection.size(), elementsToMoveNumber);
         }
 
-        int currentIndex = index;
+        int i = index;
 
         for (E element : collection) {
-            elements[currentIndex] = element;
-            currentIndex++;
+            elements[i] = element;
+            i++;
         }
 
         size += collection.size();
@@ -145,7 +149,7 @@ public class ArrayList<E> implements List<E> {
         boolean isModified = false;
 
         for (int i = size - 1; i >= 0; i--) {
-            if (collection.contains(elements[i])) {
+            if (!collection.contains(elements[i])) {
                 remove(i);
                 isModified = true;
             }
@@ -263,11 +267,14 @@ public class ArrayList<E> implements List<E> {
 
     public void ensureCapacity(int minCapacity) {
         int oldCapacity = elements.length;
+
         if (minCapacity > oldCapacity) {
             int newCapacity = oldCapacity * 2;
+
             if (newCapacity < minCapacity) {
                 newCapacity = minCapacity;
             }
+
             elements = Arrays.copyOf(elements, newCapacity);
         }
     }
@@ -280,16 +287,8 @@ public class ArrayList<E> implements List<E> {
 
     private class ArrayListIterator implements Iterator<E> {
         private int currentIndex;
-        private int previousIndex = -1;
         private int expectedModCount = modCount;
-
-        public ArrayListIterator() {
-            this(0);
-        }
-
-        public ArrayListIterator(int index) {
-            currentIndex = index;
-        }
+        private boolean removed = false;
 
         @Override
         public boolean hasNext() {
@@ -304,55 +303,23 @@ public class ArrayList<E> implements List<E> {
                 throw new NoSuchElementException("Элемент не найден.");
             }
 
-            previousIndex = currentIndex;
+            int previousIndex = currentIndex;
+            currentIndex++;
+            removed = false;
 
-            return (E) elements[currentIndex++];
+            return (E) elements[previousIndex];
         }
 
         @Override
         public void remove() {
             checkForModification();
 
-            if (previousIndex < 0) {
+            if (currentIndex <= 0 || removed) {
                 throw new IllegalStateException("Нет элемента, который нужно удалить.");
             }
 
-            try {
-                ArrayList.this.remove(previousIndex);
-                currentIndex = previousIndex;
-                previousIndex = -1;
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при удалении элемента с индексом: " + previousIndex);
-            }
-        }
-
-        public void set(E element) {
-            checkForModification();
-
-            if (previousIndex < 0) {
-                throw new IllegalStateException("Нет элемента для установки.");
-            }
-
-            try {
-                ArrayList.this.set(previousIndex, element);
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при удалении элемента с индексом: " + previousIndex);
-            }
-        }
-
-        public void add(E element) {
-            checkForModification();
-
-            try {
-                ArrayList.this.add(currentIndex, element);
-                currentIndex++;
-                previousIndex = -1;
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException("Обнаружена одновременная модификация при добавлении элемента по индексу: " + currentIndex);
-            }
+            expectedModCount++;
+            removed = true;
         }
 
         private void checkForModification() {
