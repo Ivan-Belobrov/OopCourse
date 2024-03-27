@@ -44,7 +44,7 @@ public class LinkedList<E> {
             return removeFirst();
         }
 
-        Node<E> previousNode = getNodeByIndex(index);
+        Node<E> previousNode = getNodeByIndex(index - 1);
         Node<E> nodeToRemove = previousNode.getNext();
 
         previousNode.setNext(nodeToRemove.getNext());
@@ -60,7 +60,7 @@ public class LinkedList<E> {
 
     public void insert(int index, E data) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + (size - 1) + "], передано: " + index);
+            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + size + "], передано: " + index);
         }
 
         if (index == 0) {
@@ -76,7 +76,7 @@ public class LinkedList<E> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + (size - 1) + "]: " + index);
+            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + size + "], передано: " + index);
         }
     }
 
@@ -169,9 +169,13 @@ public class LinkedList<E> {
         StringJoiner sj = new StringJoiner(", ", "[", "]");
         Node<E> node = head;
 
-        while (node != null) {
-            sj.add(node.getData().toString());
-            node = node.getNext();
+        if (node == null) {
+            sj.add("null");
+        } else {
+            while (node != null) {
+                sj.add(node.getData().toString());
+                node = node.getNext();
+            }
         }
 
         return sj.toString();

@@ -15,6 +15,9 @@ public class Main {
         list.insertFirst(9);
         list.insertFirst(10);
 
+        System.out.print("Список элементов: ");
+        System.out.println(list);
+
         System.out.println("Размер списка: " + list.getSize());
 
         System.out.println("Первый элемент списка: " + list.getFirst());
@@ -33,6 +36,10 @@ public class Main {
         list.insert(1, 4);
         list.insert(2, 6);
         System.out.print("Список после добавления элементов: ");
+        System.out.println(list);
+
+        list.removeAtIndex(3);
+        System.out.print("Список после удаление элемента по индексу 3: ");
         System.out.println(list);
 
         LinkedList<Integer> copiedList = list.copy();
