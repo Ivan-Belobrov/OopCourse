@@ -19,9 +19,7 @@ public class Main {
         System.out.println("Размер после удаления 'Вишня': " + hashTable.size());
         System.out.println("Содержит 'Вишня' " + hashTable.contains("Вишня"));
 
-        System.out.println("Перебор Элементов:");
-        for (String element : hashTable) {
-            System.out.print(element);
-        }
+        System.out.print("Перебор Элементов: ");
+        System.out.println(hashTable);
     }
 }
