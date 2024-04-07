@@ -38,12 +38,12 @@ public class HashTable<E> implements Collection<E> {
         return new Iterator<>() {
             private int listIndex;
             private int elementIndex;
-            private int iteratedElements;
+            private int iteratedElementsCount;
             private final int expectedModificationCount = modificationsCount;
 
             @Override
             public boolean hasNext() {
-                return iteratedElements < size;
+                return iteratedElementsCount < size;
             }
 
             @Override
@@ -64,7 +64,7 @@ public class HashTable<E> implements Collection<E> {
                     if (currentList != null && !currentList.isEmpty()) {
                         element = currentList.get(elementIndex);
                         elementIndex++;
-                        iteratedElements++;
+                        iteratedElementsCount++;
 
                         if (elementIndex >= currentList.size()) {
                             listIndex++;
@@ -228,22 +228,30 @@ public class HashTable<E> implements Collection<E> {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
+        if (isEmpty()) {
+            return "[]";
+        }
 
-        for (List<E> list : lists) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        boolean isFirstElement = true;
+
+        for (List<E> list : this.lists) {
             if (list != null && !list.isEmpty()) {
                 for (E element : list) {
-                    sb.append(element).append(", ");
+                    if (!isFirstElement) {
+                        sb.append(", ");
+                    } else {
+                        isFirstElement = false;
+                    }
+
+                    sb.append(element);
                 }
             }
         }
 
-        if (sb.length() > 10) {
-            sb.setLength(sb.length() - 2);
-        }
-
-        sb.append("}");
+        sb.append("]");
 
         return sb.toString();
     }

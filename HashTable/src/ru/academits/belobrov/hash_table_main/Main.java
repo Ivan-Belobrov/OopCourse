@@ -12,6 +12,9 @@ public class Main {
         hashTable.add("Персик");
         hashTable.add("Ягода");
 
+        System.out.print("Перебор Элементов: ");
+        System.out.println(hashTable);
+
         System.out.println("Размер: " + hashTable.size());
         System.out.println("Содержит 'Вишня' " + hashTable.contains("Вишня"));
 
@@ -19,6 +22,7 @@ public class Main {
         System.out.println("Размер после удаления 'Вишня': " + hashTable.size());
         System.out.println("Содержит 'Вишня' " + hashTable.contains("Вишня"));
 
+        hashTable.clear();
         System.out.print("Перебор Элементов: ");
         System.out.println(hashTable);
     }
