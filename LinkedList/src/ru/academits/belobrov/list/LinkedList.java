@@ -60,7 +60,7 @@ public class LinkedList<E> {
 
     public void insert(int index, E data) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + size + "], передано: " + index);
+            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + size + "], передан индекс: " + index);
         }
 
         if (index == 0) {
@@ -76,7 +76,7 @@ public class LinkedList<E> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + size + "], передано: " + index);
+            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + size + "], передан индекс: " + index);
         }
     }
 
@@ -146,7 +146,7 @@ public class LinkedList<E> {
             return copyList;
         }
 
-        Node<E> currentNode = head.getNext();
+        Node<E> currentNode = head;
         Node<E> previousCopyNode = new Node<>(head.getData());
 
         copyList.head = previousCopyNode;
@@ -169,13 +169,16 @@ public class LinkedList<E> {
         StringJoiner sj = new StringJoiner(", ", "[", "]");
         Node<E> node = head;
 
-        if (node == null) {
-            sj.add("null");
-        } else {
-            while (node != null) {
-                sj.add(node.getData().toString());
-                node = node.getNext();
+        while (node != null) {
+            E data = node.getData();
+
+            if (data != null) {
+                sj.add(data.toString());
+            } else {
+                sj.add("null");
             }
+
+            node = node.getNext();
         }
 
         return sj.toString();

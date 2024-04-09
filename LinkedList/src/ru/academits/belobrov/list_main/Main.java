@@ -8,12 +8,6 @@ public class Main {
 
         list.insertFirst(5);
         list.insertFirst(3);
-        list.insertFirst(2);
-        list.insertFirst(1);
-        list.insertFirst(7);
-        list.insertFirst(8);
-        list.insertFirst(9);
-        list.insertFirst(10);
 
         System.out.print("Список элементов: ");
         System.out.println(list);
@@ -38,7 +32,7 @@ public class Main {
         System.out.print("Список после добавления элементов: ");
         System.out.println(list);
 
-        list.removeAtIndex(3);
+        list.removeAtIndex(2);
         System.out.print("Список после удаление элемента по индексу 3: ");
         System.out.println(list);
 
