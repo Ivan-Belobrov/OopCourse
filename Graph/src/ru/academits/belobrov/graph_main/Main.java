@@ -1,25 +1,31 @@
 package ru.academits.belobrov.graph_main;
 
-import ru.academits.belobrov.graph.GraphTraversal;
+import ru.academits.belobrov.graph.Graph;
 
 public class Main {
     public static void main(String[] args) {
-        int[][] graph = {
-                {0, 1, 0, 1, 0},
-                {1, 0, 1, 0, 1},
-                {0, 0, 0, 1, 0},
-                {0, 1, 1, 0, 1},
-                {1, 0, 1, 0, 0}
+        int[][] matrix = {
+                {0, 1, 0, 1, 0, 0},
+                {1, 0, 1, 0, 1, 0},
+                {0, 0, 0, 0, 0, 1},
+                {0, 0, 0, 0, 0, 1},
+                {0, 0, 0, 0, 0, 1},
+                {0, 0, 0, 0, 0, 0}
         };
 
-        GraphTraversal traversal = new GraphTraversal(graph);
-        traversal.traversalBreadthFirstSearch();
-        System.out.println("Поиск в ширину");
+        Graph traversal = new Graph(matrix);
+        traversal.breadthFirstTraversal(0);
+        System.out.print("Обход в ширину: ");
         System.out.println(traversal);
 
-        traversal = new GraphTraversal(graph);
-        traversal.traversalDepthFirstSearch();
-        System.out.println("Поиск в глубину");
+        traversal = new Graph(matrix);
+        traversal.depthFirstTraversal(0);
+        System.out.print("Обход в глубину: ");
+        System.out.println(traversal);
+
+        traversal = new Graph(matrix);
+        traversal.depthFirstTraversalRecursive(0);
+        System.out.print("Обход в глубину с рекурсией: ");
         System.out.println(traversal);
     }
 }
