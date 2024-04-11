@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
-    <file url="file://$PROJECT_DIR$/ArrayList/src/ru/academits/belobrov/arrayList/ArrayList.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/BinaryTree/src/ru/academits/belobrov/binary_tree/BinarySearchTree.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/BinaryTree/src/ru/academits/belobrov/binary_tree/Node.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/BinaryTree/src/ru/academits/belobrov/binary_tree_main/Main.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Lambda/src/lambda/Person.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Lambda/src/lambda_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataWriter/src/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataWriter1/src/main/java/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/FileProcessor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Graph/src/ru/academits/belobrov/graph/Graph.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Graph/src/ru/academits/belobrov/graph_main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/HashTable/src/ru/academits/belobrov/hash_table/HashTable.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/HashTable/src/ru/academits/belobrov/hash_table_main/Main.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Lambda/src/ru/academits/belobrov/lambda/Person.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list/LinkedList.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list/Node.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/LinkedList/src/ru/academits/belobrov/list_main/Main.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/List/src" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Circle.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Rectangle.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Shape.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Square.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/Triangle.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/shapes_comparator/AreaShapesComparator.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/shapes_comparator/PerimeterShapesComparator.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/Shapes/src/ru/academits/belobrov/shapes/shapes_main/Main.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Vector/src/ru/academits/belobrov/vector/Vector.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Temperature/src/ru/academits/belobrov/main_temperature_converter/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Temperature/src/ru/academits/belobrov/temperature/CelsiusScale.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Temperature/src/ru/academits/belobrov/temperature/FahrenheitScale.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Temperature/src/ru/academits/belobrov/temperature/KelvinScale.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Temperature/src/ru/academits/belobrov/temperature/TemperatureScale.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Temperature/src/ru/academits/belobrov/temperature_converter/Controller.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Temperature/src/ru/academits/belobrov/temperature_converter/Model.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Temperature/src/ru/academits/belobrov/temperature_converter/View.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Test/src/Logic.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Test/src/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Test/src/Option.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Vector/src/ru/academits/belobrov/vector/Vector.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Vector/src/ru/academits/belobrov/vector_main/Main.java" charset="UTF-8" />
-    <file url="PROJECT" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/test.txt" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

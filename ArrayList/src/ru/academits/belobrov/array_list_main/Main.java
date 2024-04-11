@@ -22,7 +22,7 @@ public class Main {
 
         System.out.println("Размер списка = " + list.size());
 
-        System.out.println("Списко содержит Python: " + list.contains("Python"));
+        System.out.println("Список содержит Python: " + list.contains("Python"));
         System.out.println("Список содержит PHP: " + list.contains("PHP"));
 
         System.out.println("Элемент с индексом 3: " + list.get(3));
@@ -31,19 +31,13 @@ public class Main {
 
         list.retainAll(listFirst);
         System.out.print("Элементы списка после сравнения и удаления не равных элементов: ");
-
-        for (String element : list){
-            System.out.print(" " + element);
-        }
+        System.out.print(list);
 
         System.out.println();
 
         list.remove(0);
         System.out.print("Элементы списка после удаления элемента: ");
-
-        for (String element : list){
-            System.out.print(" " + element);
-        }
+        System.out.print(list);
 
         list.clear();
     }
