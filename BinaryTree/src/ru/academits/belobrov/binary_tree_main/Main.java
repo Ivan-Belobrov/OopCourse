@@ -17,7 +17,7 @@ public class Main {
         System.out.print("Бинарное дереро: " + tree);
         System.out.println();
 
-        System.out.println("Количество элементов в дереве: " + tree.countElements());
+        System.out.println("Количество элементов в дереве: " + tree.getSize());
 
         System.out.println("Поиск узла 20: " + tree.contains(20));
         System.out.println("Поиск узла 9: " + tree.contains(9));
