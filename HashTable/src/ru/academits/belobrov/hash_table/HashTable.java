@@ -6,6 +6,11 @@ public class HashTable<E> implements Collection<E> {
     private final List<E>[] lists;
     private int size;
     private int modificationsCount;
+    private static final int DEFAULT_CAPACITY = 16;
+
+    public HashTable() {
+        this(DEFAULT_CAPACITY);
+    }
 
     public HashTable(int capacity) {
         if (capacity <= 0) {
@@ -237,17 +242,15 @@ public class HashTable<E> implements Collection<E> {
 
         boolean isFirstElement = true;
 
-        for (List<E> list : this.lists) {
-            if (list != null && !list.isEmpty()) {
-                for (E element : list) {
-                    if (!isFirstElement) {
-                        sb.append(", ");
-                    } else {
-                        isFirstElement = false;
-                    }
-
-                    sb.append(element);
+        for (E element : this) {
+            if (element != null) {
+                if (!isFirstElement) {
+                    sb.append(", ");
+                } else {
+                    isFirstElement = false;
                 }
+
+                sb.append(element);
             }
         }
 
