@@ -6,6 +6,7 @@ public class HashTable<E> implements Collection<E> {
     private final List<E>[] lists;
     private int size;
     private int modificationsCount;
+
     private static final int DEFAULT_CAPACITY = 16;
 
     public HashTable() {
@@ -44,7 +45,7 @@ public class HashTable<E> implements Collection<E> {
             private int listIndex;
             private int elementIndex;
             private int iteratedElementsCount;
-            private final int expectedModificationCount = modificationsCount;
+            private final int expectedModificationCounts = modificationsCount;
 
             @Override
             public boolean hasNext() {
@@ -53,7 +54,7 @@ public class HashTable<E> implements Collection<E> {
 
             @Override
             public E next() {
-                if (modificationsCount != expectedModificationCount) {
+                if (modificationsCount != expectedModificationCounts) {
                     throw new ConcurrentModificationException("Коллекция была изменена.");
                 }
 
@@ -219,7 +220,9 @@ public class HashTable<E> implements Collection<E> {
             return;
         }
 
-        Arrays.fill(lists, null);
+        for (List<?> list : lists) {
+            list.clear();
+        }
         size = 0;
         modificationsCount++;
     }
@@ -240,18 +243,16 @@ public class HashTable<E> implements Collection<E> {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
-        boolean isFirstElement = true;
-
         for (E element : this) {
             if (element != null) {
-                if (!isFirstElement) {
-                    sb.append(", ");
-                } else {
-                    isFirstElement = false;
-                }
-
                 sb.append(element);
+                sb.append(", ");
             }
+        }
+
+        int length = sb.length();
+        if (length > 1) {
+            sb.setLength(length - 2);
         }
 
         sb.append("]");
