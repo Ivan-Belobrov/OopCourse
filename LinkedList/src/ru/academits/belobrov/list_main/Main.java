@@ -8,6 +8,14 @@ public class Main {
 
         list.insertFirst(5);
         list.insertFirst(3);
+        list.insertFirst(7);
+        list.insertFirst(9);
+        list.insertFirst(12);
+        list.insertFirst(13);
+        list.insertFirst(10);
+        list.insertFirst(25);
+        list.insertFirst(17);
+        list.insertFirst(4);
 
         System.out.print("Список элементов: ");
         System.out.println(list);
@@ -21,19 +29,19 @@ public class Main {
         list.setByIndex(1, 2);
         System.out.println("Измененный элемент по индексу 1: " + list.getByIndex(1));
 
-        int removedElement = list.removeAtIndex(0);
+        int removedElement = list.removeAtIndex(9);
         System.out.println("Удаленный Элемент: " + removedElement);
 
         System.out.print("Список после удаления элемента: ");
         System.out.println(list);
 
-        list.insert(1, 4);
+        list.insert(9, 18);
         list.insert(2, 6);
         System.out.print("Список после добавления элементов: ");
         System.out.println(list);
 
         list.removeAtIndex(2);
-        System.out.print("Список после удаление элемента по индексу 3: ");
+        System.out.print("Список после удаление элемента по индексу 2: ");
         System.out.println(list);
 
         LinkedList<Integer> copiedList = list.copy();

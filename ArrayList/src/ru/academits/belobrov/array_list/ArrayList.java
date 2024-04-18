@@ -4,6 +4,7 @@ import java.util.*;
 
 public class ArrayList<E> implements List<E> {
     private static final int DEFAULT_CAPACITY = 10;
+
     private E[] elements;
     private int size;
     private int modCount;
@@ -49,6 +50,7 @@ public class ArrayList<E> implements List<E> {
             return (T[]) Arrays.copyOf(elements, size, a.getClass());
         }
 
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(elements, 0, a, 0, size);
 
         if (a.length > size) {
@@ -97,7 +99,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> collection) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от " + 0 + " до " + size + ". Переданный индекс: " + index);
+            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + size + ". Переданный индекс: " + index);
         }
 
         if (collection.isEmpty()) {
@@ -188,7 +190,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от " + 0 + " до " + size + ". Переданный индекс: " + index);
+            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + size + ". Переданный индекс: " + index);
         }
 
         if (size == elements.length) {
@@ -201,8 +203,7 @@ public class ArrayList<E> implements List<E> {
     }
 
     private void increaseCapacity() {
-        int newCapacity = elements.length * 2;
-        elements = Arrays.copyOf(elements, newCapacity);
+        elements = Arrays.copyOf(elements, Math.max(1, elements.length * 2));
     }
 
     @Override
@@ -260,30 +261,31 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public ListIterator<E> listIterator() {
+        //noinspection ConstantConditions
         return null;
     }
 
     @Override
     public ListIterator<E> listIterator(int index) {
+        //noinspection ConstantConditions
         return null;
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
+        //noinspection ConstantConditions
         return null;
     }
 
     public void ensureCapacity(int minCapacity) {
-        int oldCapacity = elements.length;
-
-        if (minCapacity > oldCapacity) {
+        if (minCapacity > elements.length) {
             elements = Arrays.copyOf(elements, minCapacity);
         }
     }
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от " + 0 + " до " + size + ". Переданный индекс: " + index);
+            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + (size - 1) + ". Переданный индекс: " + index);
         }
     }
 
@@ -294,7 +296,7 @@ public class ArrayList<E> implements List<E> {
 
     private class ArrayListIterator implements Iterator<E> {
         private int index;
-        private int expectedModCount = modCount;
+        private final int expectedModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -306,7 +308,7 @@ public class ArrayList<E> implements List<E> {
             checkForModification();
 
             if (!hasNext()) {
-                throw new NoSuchElementException("Элемент не найден.");
+                throw new NoSuchElementException("Элементы в списке закончились.");
             }
 
             int currentIndex = index;
@@ -315,45 +317,29 @@ public class ArrayList<E> implements List<E> {
             return elements[currentIndex];
         }
 
-        @Override
-        public void remove() {
-            checkForModification();
-
-            if (index <= 0) {
-                throw new IllegalStateException("Нет элемента, который нужно удалить.");
-            }
-
-            int currentIndex = index - 1;
-            expectedModCount++;
-
-            if (size - 1 - currentIndex >= 0) {
-                System.arraycopy(elements, currentIndex + 1, elements, currentIndex, size - 1 - currentIndex);
-            }
-
-            size--;
-            modCount++;
-        }
-
         private void checkForModification() {
             if (modCount != expectedModCount) {
-                throw new ConcurrentModificationException("Список был модифицирован.");
+                throw new ConcurrentModificationException("Список был изменен.");
             }
         }
     }
 
+    @Override
     public String toString() {
+        if (isEmpty()) {
+            return "[]";
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
         for (int i = 0; i < size; i++) {
-            if (i != 0) {
-                sb.append(", ");
-            }
-
-            sb.append(elements[i]);
+            sb.append(elements[i]).append(", ");
         }
 
+        sb.setLength(sb.length() - 2);
         sb.append("]");
+
         return sb.toString();
     }
 
@@ -367,14 +353,14 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        ArrayList<?> otherList = (ArrayList<?>) o;
+        ArrayList<?> list = (ArrayList<?>) o;
 
-        if (size != otherList.size) {
+        if (size != list.size) {
             return false;
         }
 
         for (int i = 0; i < size; i++) {
-            if (!Objects.equals(elements[i], otherList.elements[i])) {
+            if (!Objects.equals(elements[i], list.elements[i])) {
                 return false;
             }
         }
@@ -382,13 +368,17 @@ public class ArrayList<E> implements List<E> {
         return true;
     }
 
+    @Override
     public int hashCode() {
-        int result = 1;
+
+        final int HASH_MULTIPLIER = 31;
+
+        int hashValue = 1;
 
         for (int i = 0; i < size; i++) {
-            result = 31 * result + (elements[i] == null ? 0 : elements[i].hashCode());
+            hashValue = HASH_MULTIPLIER * hashValue + (elements[i] == null ? 0 : elements[i].hashCode());
         }
 
-        return result;
+        return hashValue;
     }
 }

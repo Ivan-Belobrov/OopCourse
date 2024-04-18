@@ -60,7 +60,7 @@ public class LinkedList<E> {
 
     public void insert(int index, E data) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + size + "], передан индекс: " + index);
+            throw new IndexOutOfBoundsException("Допустимый диапазон индекса от 0 до " + size + ", передан индекс: " + index);
         }
 
         if (index == 0) {
@@ -76,7 +76,7 @@ public class LinkedList<E> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона [0, " + size + "], передан индекс: " + index);
+            throw new IndexOutOfBoundsException("Допустимый диапазон индекса от 0 до " + (size - 1) + ", передан индекс: " + index);
         }
     }
 
@@ -146,20 +146,19 @@ public class LinkedList<E> {
             return copyList;
         }
 
-        Node<E> currentNode = head;
-        Node<E> previousCopyNode = new Node<>(head.getData());
+        Node<E> copyNode = new Node<>(head.getData());
+        copyList.head = copyNode;
 
-        copyList.head = previousCopyNode;
-        copyList.size = 1;
-
-        currentNode = currentNode.getNext();
+        Node<E> currentNode = head.getNext();
 
         while (currentNode != null) {
-            previousCopyNode.setNext(new Node<>(currentNode.getData()));
-            previousCopyNode = previousCopyNode.getNext();
-            copyList.size++;
+            copyNode.setNext(new Node<>(currentNode.getData()));
+            copyNode = copyNode.getNext();
+            size++;
             currentNode = currentNode.getNext();
         }
+
+        copyList.size = size;
 
         return copyList;
     }
@@ -171,13 +170,7 @@ public class LinkedList<E> {
 
         while (node != null) {
             E data = node.getData();
-
-            if (data != null) {
-                sj.add(data.toString());
-            } else {
-                sj.add("null");
-            }
-
+            sj.add(String.valueOf(data));
             node = node.getNext();
         }
 
