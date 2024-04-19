@@ -63,8 +63,23 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean add(E element) {
         add(size, element);
-        modCount++;
         return true;
+    }
+
+    @Override
+    public void add(int index, E element) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + size + ". Переданный индекс: " + index);
+        }
+
+        if (size == elements.length) {
+            increaseCapacity();
+        }
+
+        System.arraycopy(elements, index, elements, index + 1, size - index);
+        elements[index] = element;
+        size++;
+        modCount++;
     }
 
     @Override
@@ -73,11 +88,27 @@ public class ArrayList<E> implements List<E> {
 
         if (index != -1) {
             remove(index);
-            modCount++;
             return true;
         }
 
         return false;
+    }
+
+    @Override
+    public E remove(int index) {
+        checkIndex(index);
+
+        E removedElement = elements[index];
+        int elementsToMoveCount = size - index - 1;
+
+        if (elementsToMoveCount > 0) {
+            System.arraycopy(elements, index + 1, elements, index, elementsToMoveCount);
+        }
+
+        elements[size - 1] = null;
+        size--;
+        modCount++;
+        return removedElement;
     }
 
     @Override
@@ -121,6 +152,7 @@ public class ArrayList<E> implements List<E> {
         }
 
         size += collection.size();
+        modCount++;
         return true;
     }
 
@@ -164,6 +196,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public void clear() {
         if (size == 0) {
+            modCount++;
             return;
         }
 
@@ -187,46 +220,15 @@ public class ArrayList<E> implements List<E> {
         return oldElement;
     }
 
-    @Override
-    public void add(int index, E element) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + size + ". Переданный индекс: " + index);
-        }
-
-        if (size == elements.length) {
-            increaseCapacity();
-        }
-
-        System.arraycopy(elements, index, elements, index + 1, size - index);
-        elements[index] = element;
-        size++;
-    }
-
     private void increaseCapacity() {
         elements = Arrays.copyOf(elements, Math.max(1, elements.length * 2));
-    }
-
-    @Override
-    public E remove(int index) {
-        checkIndex(index);
-
-        E removedElement = elements[index];
-        int elementsToMoveCount = size - index - 1;
-
-        if (elementsToMoveCount > 0) {
-            System.arraycopy(elements, index + 1, elements, index, elementsToMoveCount);
-        }
-
-        elements[size - 1] = null;
-        size--;
-        return removedElement;
     }
 
     @Override
     public int indexOf(Object o) {
         if (o == null) {
             for (int i = 0; i < size; i++) {
-                if (Objects.equals(elements[i], 0)) {
+                if (Objects.equals(elements[i], o)) {
                     return i;
                 }
             }
@@ -245,7 +247,7 @@ public class ArrayList<E> implements List<E> {
     public int lastIndexOf(Object o) {
         if (o == null) {
             for (int i = size - 1; i >= 0; i--) {
-                if (Objects.equals(elements[i], 0)) {
+                if (Objects.equals(elements[i], o)) {
                     return i;
                 }
             }
