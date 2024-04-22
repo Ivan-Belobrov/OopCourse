@@ -150,11 +150,12 @@ public class LinkedList<E> {
         copyList.head = copyNode;
 
         Node<E> currentNode = head.getNext();
+        Node<E> lastCopiedNode = copyNode;
 
         while (currentNode != null) {
-            copyNode.setNext(new Node<>(currentNode.getData()));
-            copyNode = copyNode.getNext();
-            size++;
+            copyNode = new Node<>(currentNode.getData());
+            lastCopiedNode.setNext(copyNode);
+            lastCopiedNode = copyNode;
             currentNode = currentNode.getNext();
         }
 
@@ -169,8 +170,7 @@ public class LinkedList<E> {
         Node<E> node = head;
 
         while (node != null) {
-            E data = node.getData();
-            sj.add(String.valueOf(data));
+            sj.add(String.valueOf(node.getData()));
             node = node.getNext();
         }
 
