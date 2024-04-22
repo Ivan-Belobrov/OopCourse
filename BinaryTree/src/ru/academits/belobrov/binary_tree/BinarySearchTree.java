@@ -4,13 +4,12 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class BinarySearchTree<E> {
-    private Node<E> root;
+    public Node<E> root;
     private Comparator<E> comparator;
     private int size;
 
     public BinarySearchTree(Comparator<E> comparator) {
         this.comparator = comparator;
-        size = 0;
     }
 
     public BinarySearchTree() {
@@ -70,30 +69,25 @@ public class BinarySearchTree<E> {
 
     public boolean delete(E value) {
         Node<E> currentNode = root;
-        Node<E> parentNode = null;
+        Node<E> parentNode = root;
         boolean isLeftChild = true;
 
-        while (currentNode != null) {
+        while (currentNode.getValue() != value) {
             int comparisonResult = compare(value, currentNode.getValue());
-
-
-            if (comparisonResult == 0) {
-                break;
-            }
 
             parentNode = currentNode;
 
-            if (comparisonResult > 0) {
-                currentNode = currentNode.getLeft();
+            if (comparisonResult < 0) {
                 isLeftChild = true;
+                currentNode = currentNode.getLeft();
             } else {
-                currentNode = currentNode.getRight();
                 isLeftChild = false;
+                currentNode = currentNode.getRight();
             }
-        }
 
-        if (currentNode == null) {
-            return false;
+            if (currentNode == null) {
+                return false;
+            }
         }
 
         if (currentNode.getLeft() == null && currentNode.getRight() == null) {
@@ -130,35 +124,21 @@ public class BinarySearchTree<E> {
             } else {
                 parentNode.setRight(successor);
             }
-
-            successor.setLeft(currentNode.getLeft());
         }
 
-        size--;
+        --size;
         return true;
-    }
-
-    private void deleteNodeWithTwoChildren(Node<E> current, Node<E> parent, boolean isLeftChild) {
-        Node<E> successor = getSuccessor(current);
-
-        if (current == root) {
-            root = successor;
-        } else if (isLeftChild) {
-            parent.setLeft(successor);
-        } else {
-            parent.setRight(successor);
-        }
-
-        successor.setLeft(current.getLeft());
     }
 
     private Node<E> getSuccessor(Node<E> node) {
         Node<E> successorParent = node;
-        Node<E> successor = node.getRight();
+        Node<E> successor = node;
+        Node<E> currentNode = node.getRight();
 
-        while (successor != null) {
+        while (currentNode != null) {
             successorParent = successor;
-            successor = successor.getLeft();
+            successor = currentNode;
+            currentNode = currentNode.getLeft();
         }
 
         if (successor != node.getRight()) {
@@ -198,8 +178,8 @@ public class BinarySearchTree<E> {
     private void traverseDepthFirstRecursive(Node<E> root, Consumer<E> consumer) {
         if (root != null) {
             consumer.accept(root.getValue());
-            traverseDepthFirstRecursive(root.getRight(), consumer);
             traverseDepthFirstRecursive(root.getLeft(), consumer);
+            traverseDepthFirstRecursive(root.getRight(), consumer);
         }
     }
 
@@ -215,23 +195,23 @@ public class BinarySearchTree<E> {
             Node<E> currentNode = stack.pop();
             consumer.accept(currentNode.getValue());
 
-            if (currentNode.getLeft() != null) {
-                stack.push(currentNode.getLeft());
-            }
-
             if (currentNode.getRight() != null) {
                 stack.push(currentNode.getRight());
+            }
+
+            if (currentNode.getLeft() != null) {
+                stack.push(currentNode.getLeft());
             }
         }
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
-        traverseDepthFirstRecursive(value -> sb.append(value).append(", "));
+        traverseBreadthFirst(value -> sb.append(value).append(", "));
 
-        if (sb.length() > 1){
+        if (sb.length() > 1) {
             sb.setLength(sb.length() - 2);
         }
 
@@ -244,10 +224,19 @@ public class BinarySearchTree<E> {
             return comparator.compare(value1, value2);
         }
 
-        if (value1 == null || value2 == null) {
-            throw new IllegalArgumentException("Значения для сравнения не могут быть null.");
-        } else {
-            return ((Comparable<E>) value1).compareTo(value2);
+        if (value1 == null && value2 == null) {
+            return 0;
         }
+
+        if (value1 == null) {
+            return 1;
+        }
+
+        if (value2 == null) {
+            return -1;
+        }
+
+        //noinspection unchecked
+        return ((Comparable<E>) value1).compareTo(value2);
     }
 }
