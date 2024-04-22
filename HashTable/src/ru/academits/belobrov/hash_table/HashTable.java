@@ -45,7 +45,7 @@ public class HashTable<E> implements Collection<E> {
             private int listIndex;
             private int elementIndex;
             private int iteratedElementsCount;
-            private final int expectedModificationCounts = modificationsCount;
+            private final int expectedModificationsCount = modificationsCount;
 
             @Override
             public boolean hasNext() {
@@ -54,7 +54,7 @@ public class HashTable<E> implements Collection<E> {
 
             @Override
             public E next() {
-                if (modificationsCount != expectedModificationCounts) {
+                if (modificationsCount != expectedModificationsCount) {
                     throw new ConcurrentModificationException("Коллекция была изменена.");
                 }
 
@@ -220,9 +220,12 @@ public class HashTable<E> implements Collection<E> {
             return;
         }
 
-        for (List<?> list : lists) {
-            list.clear();
+        for (List<E> list : lists) {
+            if (list != null) {
+                list.clear();
+            }
         }
+
         size = 0;
         modificationsCount++;
     }
@@ -244,13 +247,11 @@ public class HashTable<E> implements Collection<E> {
         sb.append("[");
 
         for (E element : this) {
-            if (element != null) {
-                sb.append(element);
-                sb.append(", ");
-            }
+            sb.append(element).append(", ");
         }
 
         int length = sb.length();
+
         if (length > 1) {
             sb.setLength(length - 2);
         }
