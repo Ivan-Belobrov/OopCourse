@@ -112,8 +112,8 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
-        for (Object obj : c) {
+    public boolean containsAll(Collection<?> collection) {
+        for (Object obj : collection) {
             if (!contains(obj)) {
                 return false;
             }
@@ -123,8 +123,8 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
-        return addAll(size, c);
+    public boolean addAll(Collection<? extends E> collection) {
+        return addAll(size, collection);
     }
 
     @Override
@@ -196,9 +196,10 @@ public class ArrayList<E> implements List<E> {
     @Override
     public void clear() {
         if (size == 0) {
-            modCount++;
             return;
         }
+
+        modCount++;
 
         Arrays.fill(elements, 0, size, null);
         size = 0;
@@ -221,22 +222,18 @@ public class ArrayList<E> implements List<E> {
     }
 
     private void increaseCapacity() {
-        elements = Arrays.copyOf(elements, Math.max(1, elements.length * 2));
+        if (elements.length == 0) {
+            elements = Arrays.copyOf(elements, DEFAULT_CAPACITY);
+        } else {
+            elements = Arrays.copyOf(elements, Math.max(1, elements.length * 2));
+        }
     }
 
     @Override
     public int indexOf(Object o) {
-        if (o == null) {
-            for (int i = 0; i < size; i++) {
-                if (Objects.equals(elements[i], o)) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (o.equals(elements[i])) {
-                    return i;
-                }
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(elements[i], o)) {
+                return i;
             }
         }
 
@@ -245,19 +242,12 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public int lastIndexOf(Object o) {
-        if (o == null) {
-            for (int i = size - 1; i >= 0; i--) {
-                if (Objects.equals(elements[i], o)) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = size - 1; i >= 0; i--) {
-                if (o.equals(elements[i])) {
-                    return i;
-                }
+        for (int i = size - 1; i >= 0; i--) {
+            if (Objects.equals(elements[i], o)) {
+                return i;
             }
         }
+
         return -1;
     }
 
@@ -302,12 +292,14 @@ public class ArrayList<E> implements List<E> {
 
         @Override
         public boolean hasNext() {
-            return index != size;
+            return index < size;
         }
 
         @Override
         public E next() {
-            checkForModification();
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException("Список был изменен.");
+            }
 
             if (!hasNext()) {
                 throw new NoSuchElementException("Элементы в списке закончились.");
@@ -317,12 +309,6 @@ public class ArrayList<E> implements List<E> {
             index++;
 
             return elements[currentIndex];
-        }
-
-        private void checkForModification() {
-            if (modCount != expectedModCount) {
-                throw new ConcurrentModificationException("Список был изменен.");
-            }
         }
     }
 
@@ -372,15 +358,14 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public int hashCode() {
+        final int PRIME_NUMBER = 31;
 
-        final int HASH_MULTIPLIER = 31;
-
-        int hashValue = 1;
+        int hash = 1;
 
         for (int i = 0; i < size; i++) {
-            hashValue = HASH_MULTIPLIER * hashValue + (elements[i] == null ? 0 : elements[i].hashCode());
+            hash = PRIME_NUMBER * hash + (elements[i] == null ? 0 : elements[i].hashCode());
         }
 
-        return hashValue;
+        return hash;
     }
 }

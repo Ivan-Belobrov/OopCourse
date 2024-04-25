@@ -13,19 +13,15 @@ public class Main {
                 {0, 0, 0, 0, 0, 0}
         };
 
-        Graph traversal = new Graph(matrix);
-        traversal.breadthFirstTraversal(0);
+        Graph graph = new Graph(matrix);
         System.out.print("Обход в ширину: ");
-        System.out.println(traversal);
+        graph.traverseBreadthFirst(System.out::print);
+        System.out.println();
 
-        traversal = new Graph(matrix);
-        traversal.depthFirstTraversal(0);
-        System.out.print("Обход в глубину: ");
-        System.out.println(traversal);
+        graph = new Graph(matrix);
+        System.out.println("Обход в глубину: " + graph.traverseDepthFirst(0));
 
-        traversal = new Graph(matrix);
-        traversal.depthFirstTraversalRecursive(0);
-        System.out.print("Обход в глубину с рекурсией: ");
-        System.out.println(traversal);
+        graph = new Graph(matrix);
+        System.out.println("Обход в глубину с рекурсией: " + graph.traverseDepthFirstRecursive(0));
     }
 }
