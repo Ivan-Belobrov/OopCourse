@@ -244,7 +244,7 @@ public class HashTable<E> implements Collection<E> {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
+        sb.append('[');
 
         for (E element : this) {
             sb.append(element).append(", ");
@@ -256,7 +256,7 @@ public class HashTable<E> implements Collection<E> {
             sb.setLength(length - 2);
         }
 
-        sb.append("]");
+        sb.append(']');
 
         return sb.toString();
     }
