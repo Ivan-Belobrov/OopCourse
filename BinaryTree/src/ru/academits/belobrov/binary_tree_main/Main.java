@@ -23,18 +23,19 @@ public class Main {
 
         System.out.println("Поиск узла 6: " + tree.contains(6));
 
-        System.out.println("Удаление узла 10: " + tree.delete(10));
-        System.out.println("Поиск узла 10: " + tree.contains(10));
+        System.out.println("Удаление узла 6: " + tree.delete(6));
+        System.out.println("Поиск узла 6: " + tree.contains(6));
+
 
         System.out.print("Обход в ширину: ");
-        tree.traverseBreadthFirst(System.out::print);
+        tree.traverseBreadthFirst(node -> System.out.print(node + " "));
         System.out.println();
 
         System.out.print("Обход в глубину: ");
-        tree.traverseDepthFirst(System.out::print);
+        tree.traverseDepthFirst(node -> System.out.print(node + " "));
         System.out.println();
 
         System.out.print("Обход в глубину с рекурсией: ");
-        tree.traverseDepthFirstRecursive(System.out::print);
+        tree.traverseDepthFirstRecursive(node -> System.out.print(node + " "));
     }
 }
