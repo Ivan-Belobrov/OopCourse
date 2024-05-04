@@ -223,7 +223,8 @@ public class ArrayList<E> implements List<E> {
 
     private void increaseCapacity() {
         if (elements.length == 0) {
-            elements = Arrays.copyOf(elements, DEFAULT_CAPACITY);
+            //noinspection unchecked
+            elements = (E[]) new Object[DEFAULT_CAPACITY];
         } else {
             elements = Arrays.copyOf(elements, Math.max(1, elements.length * 2));
         }
@@ -319,14 +320,14 @@ public class ArrayList<E> implements List<E> {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
+        sb.append('[');
 
         for (int i = 0; i < size; i++) {
             sb.append(elements[i]).append(", ");
         }
 
         sb.setLength(sb.length() - 2);
-        sb.append("]");
+        sb.append(']');
 
         return sb.toString();
     }
