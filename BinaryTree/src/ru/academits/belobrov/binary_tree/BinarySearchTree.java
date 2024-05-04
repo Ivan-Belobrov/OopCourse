@@ -215,13 +215,13 @@ public class BinarySearchTree<E> {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
+        sb.append('[');
 
         traverseBreadthFirst(value -> sb.append(value).append(", "));
 
         sb.setLength(sb.length() - 2);
 
-        sb.append("]");
+        sb.append(']');
         return sb.toString();
     }
 
