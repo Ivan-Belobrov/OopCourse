@@ -226,7 +226,7 @@ public class ArrayList<E> implements List<E> {
             //noinspection unchecked
             elements = (E[]) new Object[DEFAULT_CAPACITY];
         } else {
-            elements = Arrays.copyOf(elements, Math.max(1, elements.length * 2));
+            elements = Arrays.copyOf(elements, elements.length * 2);
         }
     }
 

@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 public class View {
     private final JFrame frame;
     private final JTextField inputField;
-    private final JTextArea resultTextArea;
+    private final JTextField resultTextField;
     private final JComboBox<String> fromScaleComboBox;
     private final JComboBox<String> toScaleComboBox;
-    private static final String[] TEMPERATURE_SCALES = {"Celsius", "Fahrenheit", "Kelvin"};
+    private static final String[] TEMPERATURE_SCALES = {"Цельсия", "Фаренгейта", "Кельвина"};
     private final Controller controller;
 
     public View() {
@@ -36,12 +36,11 @@ public class View {
         toScaleComboBox = new JComboBox<>(TEMPERATURE_SCALES);
 
         JLabel resultTextLabel = new JLabel("Результат:");
-        resultTextArea = new JTextArea();
-        resultTextArea.setPreferredSize(new Dimension(200, 20));
-        resultTextArea.setEditable(false);
-        resultTextArea.setRows(1);
+        resultTextField = new JTextField();
+        resultTextField.setPreferredSize(new Dimension(200, 20));
+        resultTextField.setEditable(false);
 
-        JScrollPane scrollPane = new JScrollPane(resultTextArea);
+        JScrollPane scrollPane = new JScrollPane(resultTextField);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         constraints.gridx = 0;
@@ -94,7 +93,7 @@ public class View {
     }
 
     public String getInputTemperature() {
-        return String.valueOf(Double.parseDouble(inputField.getText()));
+        return inputField.getText();
     }
 
     public String getFromScaleName() {
@@ -106,9 +105,7 @@ public class View {
     }
 
     public void setResult(String result) {
-        resultTextArea.setText(result);
-        resultTextArea.setLineWrap(true);
-        resultTextArea.setRows(1);
+        resultTextField.setText(result);
         frame.pack();
     }
 
@@ -121,5 +118,10 @@ public class View {
         public void actionPerformed(ActionEvent e) {
             controller.convertTemperature();
         }
+    }
+
+    public void clearInputField() {
+        inputField.setText("");
+
     }
 }

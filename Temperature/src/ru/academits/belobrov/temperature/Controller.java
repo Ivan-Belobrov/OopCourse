@@ -16,9 +16,9 @@ public class Controller {
             String toScaleName = view.getToScaleName();
             double result = Model.convertTemperature(temperature, fromScaleName, toScaleName);
             view.setResult(String.format("%s = %.2f, %s = %.2f ", fromScaleName, temperature, toScaleName, result));
+            view.clearInputField();
         } catch (NumberFormatException e) {
             view.showError("Неверный ввод. Пожалуйста введите число.");
-            view.setResult("");
         } catch (IllegalArgumentException e) {
             view.showError(e.getMessage());
             view.setResult("");

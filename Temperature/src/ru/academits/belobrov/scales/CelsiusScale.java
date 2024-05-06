@@ -1,4 +1,4 @@
-package ru.academits.belobrov.scale;
+package ru.academits.belobrov.scales;
 
 public class CelsiusScale implements TemperatureScale {
     @Override
