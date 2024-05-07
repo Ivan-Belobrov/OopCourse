@@ -1,4 +1,8 @@
-package ru.academits.belobrov.temperature;
+package ru.academits.belobrov.temperature.view;
+
+import ru.academits.belobrov.temperature.controller.Controller;
+import ru.academits.belobrov.temperature.model.Model;
+import ru.academits.belobrov.temperature.model.scales.TemperatureScalesManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +15,11 @@ public class View {
     private final JTextField resultTextField;
     private final JComboBox<String> fromScaleComboBox;
     private final JComboBox<String> toScaleComboBox;
-    private static final String[] TEMPERATURE_SCALES = {"Цельсия", "Фаренгейта", "Кельвина"};
+    private static final String[] TEMPERATURE_SCALES = TemperatureScalesManager.getTemperatureScaleNames();
     private final Controller controller;
 
-    public View() {
+    public View(Model model) {
+
         frame = new JFrame();
         frame.setTitle("Преобразователь температуры");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +42,7 @@ public class View {
 
         JLabel resultTextLabel = new JLabel("Результат:");
         resultTextField = new JTextField();
-        resultTextField.setPreferredSize(new Dimension(200, 20));
+        resultTextField.setPreferredSize(new Dimension(200, 10));
         resultTextField.setEditable(false);
 
         JScrollPane scrollPane = new JScrollPane(resultTextField);
@@ -84,12 +89,12 @@ public class View {
         constraints.weighty = 1.0;
         frame.add(scrollPane, constraints);
 
-        frame.setSize(400, 250);
-        frame.setMinimumSize(new Dimension(400, 250));
+        frame.setSize(400, 210);
+        frame.setMinimumSize(new Dimension(400, 210));
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
-        controller = new Controller(this);
+        controller = new Controller(this, model);
     }
 
     public String getInputTemperature() {
