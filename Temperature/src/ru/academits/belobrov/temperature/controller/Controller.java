@@ -20,13 +20,13 @@ public class Controller {
             String fromScaleName = view.getFromScaleName();
             String toScaleName = view.getToScaleName();
             double result = model.convertTemperature(temperature, fromScaleName, toScaleName);
-            view.setResult(String.format("%s = %.2f, %s = %.2f ", fromScaleName, temperature, toScaleName, result));
+            view.setResult(temperature, fromScaleName, result, toScaleName);
             view.clearInputField();
         } catch (NumberFormatException e) {
             view.showError("Неверный ввод. Пожалуйста введите число.");
         } catch (IllegalArgumentException e) {
             view.showError(e.getMessage());
-            view.setResult("");
+            view.setResult(0.0, "", 0.0, "");
         }
     }
 }

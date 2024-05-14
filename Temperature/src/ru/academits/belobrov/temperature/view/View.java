@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 public class View {
     private final JFrame frame;
     private final JTextField inputField;
-    private final JTextField resultTextField;
+    private final JTextArea resultTextArea;
     private final JComboBox<String> fromScaleComboBox;
     private final JComboBox<String> toScaleComboBox;
     private static final String[] TEMPERATURE_SCALES = TemperatureScalesManager.getTemperatureScaleNames();
@@ -41,11 +41,11 @@ public class View {
         toScaleComboBox = new JComboBox<>(TEMPERATURE_SCALES);
 
         JLabel resultTextLabel = new JLabel("Результат:");
-        resultTextField = new JTextField();
-        resultTextField.setPreferredSize(new Dimension(200, 10));
-        resultTextField.setEditable(false);
+        resultTextArea = new JTextArea();
+        resultTextArea.setPreferredSize(new Dimension(200, 10));
+        resultTextArea.setEditable(false);
 
-        JScrollPane scrollPane = new JScrollPane(resultTextField);
+        JScrollPane scrollPane = new JScrollPane(resultTextArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         constraints.gridx = 0;
@@ -109,8 +109,15 @@ public class View {
         return (String) toScaleComboBox.getSelectedItem();
     }
 
-    public void setResult(String result) {
-        resultTextField.setText(result);
+    public void setResult(double value1, String label1, double value2, String label2) {
+        String formattedResult = String.format("%s = %.2f %s = %.2f", label1, value1, label2, value2);
+        String currentResult = resultTextArea.getText();
+
+        if (!currentResult.isEmpty()) {
+            resultTextArea.setText(currentResult + System.lineSeparator());
+        }
+
+        resultTextArea.setText(resultTextArea.getText() + formattedResult);
         frame.pack();
     }
 
@@ -127,6 +134,5 @@ public class View {
 
     public void clearInputField() {
         inputField.setText("");
-
     }
 }
