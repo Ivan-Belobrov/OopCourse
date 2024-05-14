@@ -13,7 +13,7 @@ public class BinarySearchTree<E> {
     }
 
     public BinarySearchTree() {
-        this.comparator = null;
+        comparator = null;
     }
 
     public int getSize() {
@@ -40,7 +40,6 @@ public class BinarySearchTree<E> {
                 }
 
                 node = node.getLeft();
-
             } else {
                 if (node.getRight() == null) {
                     node.setRight(newNode);
@@ -49,7 +48,6 @@ public class BinarySearchTree<E> {
                 }
 
                 node = node.getRight();
-
             }
         }
     }
@@ -58,11 +56,11 @@ public class BinarySearchTree<E> {
         Node<E> node = root;
 
         while (node != null) {
-            int result = compare(value, node.getValue());
+            int comparisonResult = compare(value, node.getValue());
 
-            if (result > 0) {
+            if (comparisonResult > 0) {
                 node = node.getRight();
-            } else if (result < 0) {
+            } else if (comparisonResult < 0) {
                 node = node.getLeft();
             } else {
                 return true;
@@ -73,6 +71,10 @@ public class BinarySearchTree<E> {
     }
 
     public boolean delete(E value) {
+        if (root == null) {
+            return false;
+        }
+
         Node<E> currentNode = root;
         Node<E> parentNode = null;
         boolean isLeftChild = true;
