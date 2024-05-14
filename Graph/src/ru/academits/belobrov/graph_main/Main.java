@@ -20,12 +20,10 @@ public class Main {
         graph.traverseBreadthFirst(vertex -> System.out.print(vertex + " "));
         System.out.println();
 
-        graph = new Graph(matrix);
         System.out.print("Обход в глубину с рекурсией: ");
         graph.traverseDepthFirstRecursive(vertex -> System.out.print(vertex + " "));
         System.out.println();
 
-        graph = new Graph(matrix);
         System.out.print("Обход в глубину: ");
         List<Integer> component = graph.traverseDepthFirst(0);
         for (int vertex : component) {
