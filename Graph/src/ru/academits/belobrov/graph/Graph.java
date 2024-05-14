@@ -11,7 +11,7 @@ public class Graph {
 
     public Graph(int[][] matrix) {
         if (matrix == null) {
-            throw new IllegalArgumentException("Матрица не может быть пустой.");
+            throw new IllegalArgumentException("Матрица не может быть null.");
         }
 
         int rowsCount = matrix.length;
