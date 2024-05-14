@@ -50,36 +50,34 @@ public class Graph {
         }
     }
 
-    public void traverseDepthFirstRecursive(IntConsumer consumer) {
+    public void traverseDepthFirstRecursive(IntConsumer action) {
         int verticesCount = matrix.length;
         boolean[] visited = new boolean[verticesCount];
-        List<List<Integer>> components = new ArrayList<>();
 
-        List<Integer> component = new ArrayList<>();
-        traverseDepthFirstRecursive(consumer, visited, component);
-        components.add(component);
-
-        return components;
-    }
-
-    private void traverseDepthFirstRecursive(IntConsumer consumer, boolean[] visited, List<Integer> component) {
-        visited[consumer] = true;
-        component.add(consumer);
-
-        for (int i = 0; i < matrix.length; i++) {
-            if (matrix[consumer][i] == 1 && !visited[i]) {
-                traverseDepthFirstRecursive(i, visited, component);
+        for (int i = 0; i < verticesCount; i++) {
+            if (!visited[i]) {
+                traverseDepthFirstRecursive(i, visited, action);
             }
         }
     }
 
-    public List<List<Integer>> traverseDepthFirst(int startVertex) {
+    private void traverseDepthFirstRecursive(int vertex, boolean[] visited, IntConsumer action) {
+        visited[vertex] = true;
+        action.accept(vertex);
+
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[vertex][i] == 1 && !visited[i]) {
+                traverseDepthFirstRecursive(i, visited, action);
+            }
+        }
+    }
+
+    public List<Integer> traverseDepthFirst(int startVertex) {
         int verticesCount = matrix.length;
         boolean[] visited = new boolean[verticesCount];
-        List<List<Integer>> components = new ArrayList<>();
 
-        Queue<Integer> queue = new LinkedList<>();
         List<Integer> component = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
 
         queue.add(startVertex);
 
@@ -98,9 +96,7 @@ public class Graph {
             }
         }
 
-        components.add(component);
-
-        return components;
+        return component;
     }
 
     @Override
